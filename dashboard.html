@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — Close Partner Certification</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#080e1c;color:#e2e8f0;min-height:100vh}
+
+/* ── NAV ── */
+nav{background:rgba(14,20,36,.9);border-bottom:1px solid rgba(255,255,255,.07);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo-mark{width:34px;height:34px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#fff;box-shadow:0 2px 10px rgba(37,99,235,.35)}
+.nav-logo-text{font-weight:700;font-size:15px;color:#f8fafc}
+.nav-logo-text em{font-style:normal;color:#60a5fa}
+.nav-center{display:flex;align-items:center;gap:12px}
+.nav-bar-wrap{display:flex;align-items:center;gap:8px}
+.nav-bar-track{width:140px;height:5px;background:#1e293b;border-radius:99px;overflow:hidden}
+.nav-bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.nav-pct{font-size:13px;font-weight:700;color:#60a5fa;min-width:32px}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-user{font-size:13px;color:#94a3b8;font-weight:500}
+.nav-logout{font-size:12px;color:#475569;cursor:pointer;background:none;border:1px solid #2d3f55;border-radius:7px;padding:6px 12px;font-family:inherit;transition:all .2s}
+.nav-logout:hover{border-color:#64748b;color:#94a3b8}
+@media(max-width:640px){.nav-center{display:none}.nav-user{display:none}}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(160deg,#0d1f3c 0%,#080e1c 55%);border-bottom:1px solid rgba(255,255,255,.06);padding:48px 32px 40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(59,130,246,.1) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px;position:relative;z-index:1}
+@media(max-width:700px){.hero-inner{grid-template-columns:1fr}.hero-ring{display:none}}
+.hero-greeting{font-size:13px;font-weight:600;color:#60a5fa;letter-spacing:.3px;margin-bottom:6px;text-transform:uppercase}
+.hero-name{font-size:34px;font-weight:900;color:#f8fafc;letter-spacing:-.6px;margin-bottom:8px}
+.hero-sub{font-size:15px;color:#64748b;margin-bottom:28px;line-height:1.55}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap}
+.hero-stat{text-align:left}
+.hero-stat-num{font-size:22px;font-weight:800;color:#f8fafc;line-height:1}
+.hero-stat-lbl{font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:.4px;margin-top:3px;font-weight:600}
+
+/* Progress ring SVG */
+.hero-ring{position:relative;width:120px;height:120px;flex-shrink:0}
+.ring-svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#1e293b;stroke-width:8}
+.ring-fill{fill:none;stroke:url(#ringGrad);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-size:24px;font-weight:900;color:#f8fafc;line-height:1}
+.ring-done{font-size:10px;color:#64748b;font-weight:600;letter-spacing:.3px;text-transform:uppercase;margin-top:2px}
+
+/* ── MAIN CONTENT ── */
+.main{max-width:1100px;margin:0 auto;padding:36px 32px 64px}
+
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-size:16px;font-weight:700;color:#f8fafc;letter-spacing:-.2px}
+.section-sub{font-size:13px;color:#475569;margin-top:2px}
+.progress-pill{background:#1e293b;border:1px solid #334155;border-radius:99px;padding:5px 14px;font-size:12px;font-weight:600;color:#64748b}
+.progress-pill span{color:#60a5fa}
+
+/* NEXT UP BANNER */
+.next-up{background:linear-gradient(135deg,#1d3461 0%,#1e293b 100%);border:1px solid rgba(59,130,246,.3);border-radius:14px;padding:22px 24px;margin-bottom:28px;display:flex;align-items:center;gap:20px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.next-up::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(37,99,235,.08),transparent);opacity:0;transition:opacity .25s}
+.next-up:hover::before{opacity:1}
+.next-up:hover{border-color:rgba(59,130,246,.6);transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,99,235,.15)}
+.next-up-badge{background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:10px;padding:12px;font-size:24px;flex-shrink:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center}
+.next-up-info{flex:1}
+.next-up-label{font-size:11px;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.next-up-title{font-size:17px;font-weight:700;color:#f8fafc;margin-bottom:3px}
+.next-up-sub{font-size:13px;color:#64748b}
+.next-up-arrow{font-size:20px;color:#3b82f6;flex-shrink:0;transition:transform .2s}
+.next-up:hover .next-up-arrow{transform:translateX(4px)}
+
+/* MODULE GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.card{background:#111827;border:1px solid #1e293b;border-radius:14px;padding:22px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,#334155);opacity:0;transition:opacity .22s}
+.card:hover:not(.locked)::before{opacity:1}
+.card:hover:not(.locked){border-color:var(--accent-border,#334155);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card.locked{opacity:.5;cursor:not-allowed}
+.card.passed{border-color:#10b98133}
+.card.passed::before{background:#10b981;opacity:1}
+.card.in-progress{border-color:#3b82f633}
+.card.in-progress::before{background:linear-gradient(90deg,#2563eb,#7c3aed);opacity:1}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.card-num{font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px}
+.card-status{font-size:16px;line-height:1}
+.card-icon{font-size:22px;margin-bottom:8px}
+.card-title{font-size:15px;font-weight:700;color:#f8fafc;margin-bottom:5px;letter-spacing:-.1px}
+.card-sub{font-size:12px;color:#4b5563;line-height:1.5}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid #1e293b}
+.card-dur{font-size:11px;color:#374151;display:flex;align-items:center;gap:4px}
+.card-score{font-size:12px;font-weight:700}
+.score-pass{color:#10b981}
+.score-fail{color:#f59e0b}
+.score-none{color:#374151}
+.lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:14px}
+.lock-icon{font-size:20px;opacity:.4}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 20px;font-size:14px;color:#f8fafc;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:#10b981}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo-mark">C</div>
+    <div class="nav-logo-text">Close<em>.com</em> &nbsp;×&nbsp; Partner Certification</div>
+  </div>
+  <div class="nav-center">
+    <div class="nav-bar-wrap">
+      <div class="nav-bar-track"><div class="nav-bar-fill" id="nav-fill" style="width:0%"></div></div>
+      <div class="nav-pct" id="nav-pct">0%</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-user" id="nav-user"></div>
+    <button class="nav-logout" onclick="logout()">Sign out</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-greeting">Welcome back</div>
+      <div class="hero-name" id="hero-name">Loading…</div>
+      <div class="hero-sub" id="hero-sub">Loading your progress…</div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num" id="hs-done">—</div><div class="hero-stat-lbl">Modules Done</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="hs-avg">—</div><div class="hero-stat-lbl">Avg Score</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="hs-remain">—</div><div class="hero-stat-lbl">Remaining</div></div>
+      </div>
+    </div>
+    <div class="hero-ring">
+      <svg class="ring-svg" width="120" height="120" viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2563eb"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-bg" cx="60" cy="60" r="50"/>
+        <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
+      </svg>
+      <div class="ring-center">
+        <div class="ring-pct" id="ring-pct">0%</div>
+        <div class="ring-done" id="ring-done">complete</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div id="next-up-section"></div>
+
+  <div class="section-header">
+    <div>
+      <div class="section-title">All Modules</div>
+      <div class="section-sub">Complete each module in order to earn your certification</div>
+    </div>
+    <div class="progress-pill"><span id="done-count">0</span> / 10 complete</div>
+  </div>
+  <div class="grid" id="modules-grid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script>
+const FIREBASE_CONFIG={apiKey:"AIzaSyBpV0iu7imgk5Ge5JhSy-GcX6GZESy6LB4",authDomain:"close-partner-cert.firebaseapp.com",projectId:"close-partner-cert",storageBucket:"close-partner-cert.firebasestorage.app",messagingSenderId:"325918619844",appId:"1:325918619844:web:55c995db0e4219d8f8f191"};
+const FIREBASE_READY=FIREBASE_CONFIG.apiKey!=="YOUR_API_KEY";
+firebase.initializeApp(FIREBASE_CONFIG);
+const db=firebase.firestore();
+function withTimeout(p,ms=5000){return Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);}
+function userDocId(e){return e.toLowerCase().replace(/[^a-z0-9]/g,'_');}
+function showToast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+
+// Module metadata (no full content — that lives in module.html)
+const MODULES=[
+  {id:1,title:"Brand Overview",subtitle:"Who Close is and why partners win",duration:"30–40 min",icon:"🏢"},
+  {id:2,title:"Product Knowledge L1",subtitle:"What Close does. How it works.",duration:"35–45 min",icon:"⚙️"},
+  {id:3,title:"GTM Preparedness",subtitle:"Messaging that converts",duration:"35–45 min",icon:"🚀"},
+  {id:4,title:"Product Knowledge L2",subtitle:"Customization, API & integrations",duration:"40–50 min",icon:"🔧"},
+  {id:5,title:"ICP & Sales Readiness",subtitle:"Who to sell to. How to qualify.",duration:"35–45 min",icon:"🎯"},
+  {id:6,title:"Product Demonstrations",subtitle:"Demos that open with pain",duration:"40–50 min",icon:"🖥️"},
+  {id:7,title:"Product Knowledge L3",subtitle:"Chloe AI & advanced builds",duration:"40–50 min",icon:"🤖"},
+  {id:8,title:"Client Success Delivery",subtitle:"Implementation & first 90 days",duration:"35–45 min",icon:"🤝"},
+  {id:9,title:"Client Retention & Expansion",subtitle:"Renewals, upsell, expansion",duration:"35–45 min",icon:"📈"},
+  {id:10,title:"Scalable Business Building",subtitle:"Build a repeatable practice",duration:"40–50 min",icon:"🏗️"}
+];
+
+// Card accent colors per module
+const ACCENTS=[
+  {color:'#3b82f6',border:'#3b82f622'},
+  {color:'#8b5cf6',border:'#8b5cf622'},
+  {color:'#06b6d4',border:'#06b6d422'},
+  {color:'#f59e0b',border:'#f59e0b22'},
+  {color:'#10b981',border:'#10b98122'},
+  {color:'#ef4444',border:'#ef444422'},
+  {color:'#a855f7',border:'#a855f722'},
+  {color:'#14b8a6',border:'#14b8a622'},
+  {color:'#f97316',border:'#f9731622'},
+  {color:'#ec4899',border:'#ec489922'}
+];
+
+let user=null, progress={};
+
+async function loadProgress(email){
+  const local=localStorage.getItem('cp_progress_'+email);
+  if(local) try{progress=JSON.parse(local);}catch(e){}
+  if(FIREBASE_READY){
+    try{
+      const snap=await withTimeout(db.collection('partners').doc(userDocId(email)).get());
+      if(snap.exists&&snap.data().moduleProgress){
+        const fp=snap.data().moduleProgress;
+        // merge, keeping best score
+        Object.keys(fp).forEach(k=>{
+          if(!progress[k]||fp[k].score>progress[k].score) progress[k]=fp[k];
+        });
+        localStorage.setItem('cp_progress_'+email,JSON.stringify(progress));
+      }
+    }catch(e){console.warn('Firebase read failed:',e.message);}
+  }
+}
+
+function renderDashboard(){
+  const passed=Object.values(progress).filter(m=>m.passed).length;
+  const pct=Math.round(passed/10*100);
+  const scores=Object.values(progress).filter(m=>m.score).map(m=>m.score);
+  const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;
+
+  // Nav
+  document.getElementById('nav-fill').style.width=pct+'%';
+  document.getElementById('nav-pct').textContent=pct+'%';
+  document.getElementById('nav-user').textContent=user.firstName+' '+user.lastName;
+
+  // Hero
+  document.getElementById('hero-name').textContent='Hey, '+user.firstName+' 👋';
+  document.getElementById('hero-sub').textContent=passed===10?'You\'ve completed the entire certification program. Congratulations!':passed===0?'Ready to start? Module 1 is unlocked and waiting.':'Keep going — you\'re making great progress!';
+  document.getElementById('hs-done').textContent=passed;
+  document.getElementById('hs-avg').textContent=avg?avg+'%':'—';
+  document.getElementById('hs-remain').textContent=10-passed;
+
+  // Ring
+  const circumference=314;
+  const offset=circumference-(pct/100*circumference);
+  document.getElementById('ring-fill').style.strokeDashoffset=offset;
+  document.getElementById('ring-pct').textContent=pct+'%';
+  document.getElementById('ring-done').textContent=passed+'/10 done';
+
+  document.getElementById('done-count').textContent=passed;
+
+  // Next Up banner
+  const nextModule=MODULES.find((m,i)=>i===0?!progress[m.id]?.passed:progress[MODULES[i-1].id]?.passed&&!progress[m.id]?.passed);
+  const nextSec=document.getElementById('next-up-section');
+  if(nextModule&&passed<10){
+    nextSec.innerHTML=`
+      <div class="next-up" onclick="goModule(${nextModule.id})">
+        <div class="next-up-badge">${nextModule.icon}</div>
+        <div class="next-up-info">
+          <div class="next-up-label">▶ Up next</div>
+          <div class="next-up-title">Module ${nextModule.id}: ${nextModule.title}</div>
+          <div class="next-up-sub">${nextModule.subtitle} &middot; ${nextModule.duration}</div>
+        </div>
+        <div class="next-up-arrow">→</div>
+      </div>`;
+  } else if(passed>=10){
+    nextSec.innerHTML=`
+      <div class="next-up" onclick="location.href='certified.html'" style="--accent:#10b981">
+        <div class="next-up-badge">🏆</div>
+        <div class="next-up-info">
+          <div class="next-up-label">🎉 All modules complete</div>
+          <div class="next-up-title">Claim your certification</div>
+          <div class="next-up-sub">You've passed all 10 modules — view your certificate now</div>
+        </div>
+        <div class="next-up-arrow">→</div>
+      </div>`;
+  } else { nextSec.innerHTML=''; }
+
+  // Grid
+  const grid=document.getElementById('modules-grid');
+  grid.innerHTML='';
+  MODULES.forEach((mod,i)=>{
+    const prog=progress[mod.id];
+    const prevPassed=i===0||progress[MODULES[i-1].id]?.passed;
+    const locked=!prevPassed;
+    const isPassed=prog?.passed;
+    const inProgress=prog&&!prog.passed;
+    const acc=ACCENTS[i];
+    const card=document.createElement('div');
+    let cls='card';
+    if(locked) cls+=' locked';
+    else if(isPassed) cls+=' passed';
+    else if(inProgress) cls+=' in-progress';
+    card.className=cls;
+    card.style.setProperty('--accent',acc.color);
+    card.style.setProperty('--accent-border',acc.border);
+    card.innerHTML=`
+      <div class="card-top">
+        <div class="card-num">Module ${String(mod.id).padStart(2,'0')}</div>
+        <div class="card-status">${isPassed?'✅':locked?'🔒':inProgress?'⟳':'⭕'}</div>
+      </div>
+      <div class="card-icon">${mod.icon}</div>
+      <div class="card-title">${mod.title}</div>
+      <div class="card-sub">${mod.subtitle}</div>
+      <div class="card-footer">
+        <div class="card-dur">⏱ ${mod.duration}</div>
+        <div class="card-score ${isPassed?'score-pass':inProgress?'score-fail':'score-none'}">${prog?prog.score+'%':'Not started'}</div>
+      </div>
+      ${locked?'<div class="lock-overlay"><div class="lock-icon">🔒</div></div>':''}
+    `;
+    if(!locked) card.onclick=()=>goModule(mod.id);
+    grid.appendChild(card);
+  });
+}
+
+function goModule(id){ location.href='module.html?id='+id; }
+
+function logout(){
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith('cp_user_')||k.startsWith('cp_progress_'));
+  keys.forEach(k=>localStorage.removeItem(k));
+  location.href='index.html';
+}
+
+// Init
+(async function(){
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith('cp_user_'));
+  if(!keys.length){location.href='index.html';return;}
+  user=JSON.parse(localStorage.getItem(keys[keys.length-1]));
+  if(!user){location.href='index.html';return;}
+  await loadProgress(user.email);
+  renderDashboard();
+})();
+</script>
+</body>
+</html>

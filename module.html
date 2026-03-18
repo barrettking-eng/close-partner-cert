@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Module — Close Partner Certification</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#080e1c;color:#e2e8f0;min-height:100vh}
+
+/* ── TOP BAR ── */
+.topbar{background:rgba(14,20,36,.92);border-bottom:1px solid rgba(255,255,255,.07);padding:0 28px;height:56px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.topbar-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;background:none;border:1px solid #1e293b;border-radius:8px;padding:6px 12px;font-family:inherit;transition:all .2s;flex-shrink:0}
+.topbar-back:hover{border-color:#334155;color:#94a3b8}
+.topbar-crumb{flex:1;display:flex;align-items:center;gap:8px;min-width:0}
+.topbar-crumb-label{font-size:12px;color:#334155}
+.topbar-crumb-title{font-size:13px;font-weight:600;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.topbar-pip{background:#1e293b;border:1px solid #334155;border-radius:6px;padding:4px 10px;font-size:11px;color:#475569;font-weight:600;white-space:nowrap}
+.btn-save{background:rgba(15,23,42,.8);border:1px solid #2563eb44;color:#60a5fa;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;transition:all .2s}
+.btn-save:hover{background:#1d3461;border-color:#3b82f6}
+
+/* ── HERO ── */
+.module-hero{background:linear-gradient(160deg,#0d1f3c 0%,#080e1c 60%);border-bottom:1px solid rgba(255,255,255,.06);padding:36px 32px 28px;position:relative;overflow:hidden}
+.module-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 70% at 10% 50%,rgba(59,130,246,.1) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.hero-mod-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.22);color:#93c5fd;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;margin-bottom:14px;letter-spacing:.6px;text-transform:uppercase}
+.hero-title{font-size:28px;font-weight:900;color:#f8fafc;letter-spacing:-.5px;margin-bottom:6px;line-height:1.2}
+.hero-title em{font-style:normal;color:#60a5fa}
+.hero-sub{font-size:14px;color:#64748b;margin-bottom:20px;line-height:1.55}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:5px 13px;font-size:12px;color:#64748b;font-weight:500}
+.pill.status-pass{border-color:#10b98133;color:#10b981}
+.pill.status-retry{border-color:#f59e0b33;color:#f59e0b}
+.pill.status-open{border-color:#3b82f633;color:#60a5fa}
+
+/* ── BODY ── */
+.module-body{max-width:800px;margin:0 auto;padding:32px}
+
+.objectives-box{background:#0f172a;border:1px solid #1d4ed833;border-left:3px solid #3b82f6;border-radius:10px;padding:18px 20px;margin-bottom:32px}
+.objectives-box h4{font-size:11px;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px}
+.objectives-box ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.objectives-box li{font-size:13px;color:#94a3b8;padding-left:20px;position:relative;line-height:1.55}
+.objectives-box li::before{content:"→";position:absolute;left:0;color:#3b82f6;font-weight:700}
+
+.content-section{margin-bottom:32px}
+.content-section h3{font-size:16px;font-weight:700;color:#f8fafc;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #1e293b;letter-spacing:-.1px}
+.content-section p{font-size:14px;color:#94a3b8;line-height:1.75;margin-bottom:10px}
+.content-section strong{color:#e2e8f0}
+.content-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px;border-radius:8px;overflow:hidden}
+.content-table th{background:#0f172a;color:#64748b;font-weight:600;padding:9px 12px;text-align:left;border:1px solid #1e293b;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+.content-table td{padding:9px 12px;border:1px solid #1e293b;color:#94a3b8;vertical-align:top;line-height:1.5}
+.content-table tr:nth-child(even) td{background:#0a0f1e}
+.callout{background:#0f172a;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:13px;color:#fcd34d;line-height:1.55}
+.callout.blue{border-color:#3b82f6;color:#93c5fd}
+.callout.green{border-color:#10b981;color:#6ee7b7}
+.tag-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tag{background:#1e293b;border:1px solid #334155;border-radius:6px;padding:4px 10px;font-size:12px;color:#64748b}
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.do-box{background:#052e16;border:1px solid #16a34a33;border-radius:8px;padding:14px}
+.dont-box{background:#2d1515;border:1px solid #dc262633;border-radius:8px;padding:14px}
+.do-box h5{color:#4ade80;font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
+.dont-box h5{color:#f87171;font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
+.do-box p,.dont-box p{font-size:12px;color:#94a3b8;margin-bottom:4px;line-height:1.5}
+@media(max-width:600px){.do-dont{grid-template-columns:1fr}}
+
+/* ── QUIZ ── */
+.quiz-section{background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:28px;margin-top:8px}
+.quiz-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px}
+.quiz-head h3{font-size:17px;font-weight:700;color:#f8fafc;letter-spacing:-.2px}
+.quiz-head p{font-size:13px;color:#475569;margin-top:4px;line-height:1.5}
+.quiz-meta-pill{background:#1e293b;border:1px solid #334155;border-radius:7px;padding:6px 12px;font-size:12px;color:#64748b;white-space:nowrap;font-weight:600;flex-shrink:0}
+
+.quiz-progress{display:flex;gap:6px;margin-bottom:24px}
+.quiz-dot{width:36px;height:4px;border-radius:99px;background:#1e293b;transition:background .3s}
+.quiz-dot.current{background:#3b82f6}
+.quiz-dot.answered-correct{background:#10b981}
+.quiz-dot.answered-wrong{background:#ef4444}
+
+.question-block{display:none;animation:fadeUp .25s ease}
+.question-block.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.question-num{font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.question-text{font-size:15px;font-weight:600;color:#f8fafc;margin-bottom:20px;line-height:1.55}
+.options{display:flex;flex-direction:column;gap:10px}
+.option-btn{background:#111827;border:1.5px solid #1e293b;border-radius:10px;padding:13px 16px;font-size:14px;color:#94a3b8;cursor:pointer;text-align:left;transition:all .18s;font-family:inherit;display:flex;align-items:center;gap:12px;line-height:1.4}
+.option-btn:hover:not(:disabled){border-color:#3b82f6;color:#f8fafc;background:#172035}
+.option-btn.selected-correct{background:#052e16;border-color:#10b981;color:#4ade80}
+.option-btn.selected-wrong{background:#2d1515;border-color:#ef4444;color:#f87171}
+.option-letter{width:26px;height:26px;border-radius:50%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;letter-spacing:0}
+.explanation-box{background:#0a0f1e;border:1px solid #1e293b;border-radius:9px;padding:14px 16px;margin-top:14px;font-size:13px;color:#64748b;line-height:1.65;display:none}
+.explanation-box.show{display:block;animation:fadeUp .2s ease}
+.explanation-box strong{color:#60a5fa}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+.btn-next{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;border:none;border-radius:9px;padding:11px 26px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 2px 10px rgba(37,99,235,.25)}
+.btn-next:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,.35)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none;background:#334155}
+
+/* ── RESULT ── */
+.quiz-result{text-align:center;padding:20px 0}
+.result-ring{width:104px;height:104px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;border:4px solid}
+.result-ring.pass{border-color:#10b981;color:#10b981;background:#052e16}
+.result-ring.fail{border-color:#f59e0b;color:#f59e0b;background:#2d1f00}
+.result-title{font-size:22px;font-weight:800;color:#f8fafc;margin-bottom:6px;letter-spacing:-.3px}
+.result-sub{font-size:14px;color:#64748b;margin-bottom:28px;line-height:1.5}
+.result-breakdown{display:flex;justify-content:center;gap:28px;margin-bottom:28px}
+.result-stat-num{font-size:26px;font-weight:800;color:#f8fafc}
+.result-stat-label{font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:.3px;margin-top:3px}
+.btn-group{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:9px;padding:11px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .22s;box-shadow:0 3px 12px rgba(37,99,235,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(37,99,235,.35)}
+.btn-secondary{background:#111827;border:1px solid #334155;color:#94a3b8;border-radius:9px;padding:10px 22px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-secondary:hover{border-color:#64748b;color:#f8fafc}
+
+/* ── DIALOG ── */
+.dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px)}
+.dialog-box{background:#111827;border:1px solid #334155;border-radius:18px;padding:36px 32px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.dialog-icon{font-size:44px;margin-bottom:14px}
+.dialog-box h3{font-size:19px;font-weight:800;color:#f8fafc;margin-bottom:8px;letter-spacing:-.2px}
+.dialog-box p{font-size:14px;color:#64748b;line-height:1.6;margin-bottom:26px}
+.dialog-btns{display:flex;flex-direction:column;gap:10px}
+.btn-dialog-save{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:9px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.btn-dialog-save:hover{opacity:.9}
+.btn-dialog-exit{background:#111827;border:1px solid #334155;color:#94a3b8;border-radius:9px;padding:12px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-dialog-exit:hover{border-color:#64748b;color:#f8fafc}
+.btn-dialog-stay{background:none;border:none;color:#475569;font-size:13px;cursor:pointer;font-family:inherit;padding:6px;transition:color .2s}
+.btn-dialog-stay:hover{color:#94a3b8}
+
+/* ── MISC ── */
+.hidden{display:none!important}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:24px;right:24px;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 20px;font-size:14px;color:#f8fafc;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px;line-height:1.4}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:#10b981}
+.toast.error{border-color:#ef4444}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="topbar-back" onclick="requestExitModule()">← Dashboard</button>
+  <div class="topbar-crumb">
+    <div class="topbar-crumb-label">Module</div>
+    <div class="topbar-crumb-label">›</div>
+    <div class="topbar-crumb-title" id="topbar-title">Loading…</div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-pip" id="topbar-pos"></div>
+    <button class="btn-save" id="btn-save" onclick="saveProgressAndStay()">💾 Save Progress</button>
+  </div>
+</div>
+
+<div class="module-hero">
+  <div class="hero-inner">
+    <div class="hero-mod-badge" id="hero-badge">Module —</div>
+    <h1 class="hero-title" id="hero-title">Loading…</h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <div class="hero-pills">
+      <div class="pill" id="pill-dur"></div>
+      <div class="pill" id="pill-status"></div>
+    </div>
+  </div>
+</div>
+
+<div class="module-body">
+  <div class="objectives-box">
+    <h4>Learning Objectives</h4>
+    <ul id="mod-objectives"></ul>
+  </div>
+  <div id="mod-content"></div>
+
+  <div class="quiz-section" id="quiz-section">
+    <div class="quiz-head">
+      <div>
+        <h3>Module Assessment</h3>
+        <p>Answer all 5 questions. You need <strong style="color:#60a5fa">4 of 5 (80%)</strong> to pass and unlock the next module.</p>
+      </div>
+      <div class="quiz-meta-pill" id="quiz-meta">5 questions</div>
+    </div>
+    <div class="quiz-progress" id="quiz-dots"></div>
+    <div id="quiz-questions"></div>
+    <div id="quiz-result-panel" class="hidden"></div>
+  </div>
+</div>
+
+<div class="dialog-overlay" id="exit-dialog" style="display:none">
+  <div class="dialog-box">
+    <div class="dialog-icon">💾</div>
+    <h3>Save before leaving?</h3>
+    <p>Your quiz answers will be remembered so you can continue right where you left off.</p>
+    <div class="dialog-btns">
+      <button class="btn-dialog-save" onclick="saveAndExit()">Save &amp; Exit</button>
+      <button class="btn-dialog-exit" onclick="exitWithoutSaving()">Exit Without Saving</button>
+      <button class="btn-dialog-stay" onclick="closeSaveDialog()">Keep Studying</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script>
+const FIREBASE_CONFIG={apiKey:"AIzaSyBpV0iu7imgk5Ge5JhSy-GcX6GZESy6LB4",authDomain:"close-partner-cert.firebaseapp.com",projectId:"close-partner-cert",storageBucket:"close-partner-cert.firebasestorage.app",messagingSenderId:"325918619844",appId:"1:325918619844:web:55c995db0e4219d8f8f191"};
+const FIREBASE_READY=FIREBASE_CONFIG.apiKey!=="YOUR_API_KEY";
+firebase.initializeApp(FIREBASE_CONFIG);
+const db=firebase.firestore();
+function withTimeout(p,ms=5000){return Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);}
+const CURRICULUM = [
+{
+  id:1, title:"Brand Overview", subtitle:"Who Close is and why partners win",
+  duration:"30–40 min", icon:"🏢",
+  objective:"Before you sell Close, you have to believe in Close. This module builds the foundational understanding of Close's market position, brand identity, and the partner value proposition.",
+  objectives:[
+    "Articulate Close's company mission, brand voice, and market category",
+    "Explain the partner value proposition in your own words",
+    "Describe how Close differs from generic CRM competitors",
+    "Understand the partner program tiers and what drives advancement"
+  ],
+  sections:[
+    {heading:"Who is Close?", html:`<p>Close is the <strong>no-BS CRM built for small, scaling businesses</strong>. Founded by Steli Efti, Close was built on a single conviction: salespeople should not babysit software. Every product decision at Close is filtered through one question: does this help reps sell faster?</p><p>Where Salesforce adds complexity, Close removes it. Where HubSpot adds cost, Close adds value. Where Pipedrive under-delivers on communication, Close doubles down on it.</p>`},
+    {heading:"Market Position", html:`<table class="content-table"><thead><tr><th>Attribute</th><th>Close Position</th></tr></thead><tbody><tr><td>Primary Segment</td><td>SMB sales teams, 1–50 reps, high-velocity outbound/inbound</td></tr><tr><td>Sweet Spot</td><td>Teams doing 20+ sales activities per rep per day</td></tr><tr><td>Key Differentiator</td><td>Built-in communication stack (call, email, SMS) in one inbox</td></tr><tr><td>Pricing Position</td><td>Mid-market value — premium to legacy tools, accessible vs. enterprise CRM</td></tr><tr><td>Brand Voice</td><td>Direct, candid, practitioner-first — 'no BS'</td></tr></tbody></table>`},
+    {heading:"Partner Program Tiers", html:`<table class="content-table"><thead><tr><th>Tier</th><th>Terms & Qualifications</th></tr></thead><tbody><tr><td><strong>Solutions Partner Tier 1</strong></td><td>30% commission | Up to $10K per customer | 25–49 referrals or $100K–$199K ARR/yr</td></tr><tr><td><strong>Solutions Partner Tier 2</strong></td><td>30% commission | Up to $20K per customer | 50+ referrals or $200K+ ARR/yr</td></tr><tr><td><strong>Affiliate / Referral</strong></td><td>30% for 12 months | No revenue cap | No volume minimum</td></tr></tbody></table>`},
+    {heading:"Messaging: Do's & Don'ts", html:`<div class="do-dont"><div class="do-box"><h5>✓ Do Say</h5><p>"The CRM built for teams that actually sell"</p><p>"All your outreach in one place — no tool-switching"</p><p>"Built for sales velocity, not admin work"</p></div><div class="dont-box"><h5>✗ Don't Say</h5><p>"It's like Salesforce but cheaper"</p><p>"It's a basic CRM for small businesses"</p><p>"Best for teams that don't need much"</p></div></div>`},
+    {heading:"Key Takeaways", html:`<div class="callout blue">Close is not trying to win every CRM deal — it's trying to win every high-velocity SMB sales deal. That focus is your competitive advantage.</div><div class="callout blue">As a solutions partner, you are a trusted advisor to your clients who happens to earn when Close is the right solution.</div><div class="callout blue">Partner success at Close is measured by referral quality, not just quantity.</div>`}
+  ],
+  quiz:[
+    {q:"Close.com is described as 'the no-BS CRM built for' what type of business?",opts:["Enterprise companies with complex workflows and 500+ employees","Small, scaling businesses where salespeople should not babysit software","Marketing agencies focused on lead generation","Large corporations with dedicated IT departments"],correct:1,exp:"Close was built on a single conviction: salespeople should not babysit software. It's purpose-built for small, scaling businesses."},
+    {q:"What is Close's primary market segment?",opts:["Mid-market companies with 200–1,000 employees","Enterprise SaaS companies","SMB sales teams, 1–50 reps, doing high-velocity outbound/inbound","B2C consumer brands with large customer support teams"],correct:2,exp:"Close's primary segment is SMB sales teams of 1–50 reps with a sweet spot of teams doing 20+ sales activities per rep per day."},
+    {q:"Which phrase should you NEVER use when describing Close to a prospect?",opts:["'The CRM built for teams that actually sell'","'All your outreach in one place — no tool-switching'","'It's like Salesforce but cheaper'","'Built for sales velocity, not admin work'"],correct:2,exp:"'It's like Salesforce but cheaper' is explicitly listed as a Don't Say — it undersells Close's differentiation and frames it as a discount alternative rather than a specialized tool."},
+    {q:"What is the commission rate for Solutions Partner Tier 2?",opts:["20% commission up to $10K per customer","25% commission with no revenue cap","30% commission up to $20K per customer","35% commission up to $50K per customer"],correct:2,exp:"Both Tier 1 and Tier 2 pay 30% commission. The difference is Tier 2 has a higher per-customer cap ($20K vs $10K) and requires 50+ referrals or $200K+ ARR."},
+    {q:"Close's brand voice is described as:",opts:["Professional, formal, and enterprise-focused","Friendly, casual, and approachable","Direct, candid, practitioner-first — 'no BS'","Technical, data-driven, and analytical"],correct:2,exp:"Close's brand voice is Direct, candid, practitioner-first — 'no BS'. This is a core part of the brand identity and should come through in every partner conversation."}
+  ]
+},
+{
+  id:2, title:"Product Knowledge L1", subtitle:"What Close does. How it works.",
+  duration:"35–45 min", icon:"⚙️",
+  objective:"You cannot sell what you don't understand, and you cannot implement what you can't explain. This module gives you the product foundation — Close's architecture, core capabilities, and the value drivers that make clients switch.",
+  objectives:[
+    "Explain the five core pillars of the Close platform","Describe the user experience from a sales rep's daily perspective","Articulate why the unified communication inbox is Close's #1 value driver","Map Close plan options to client use cases"
+  ],
+  sections:[
+    {heading:"The Five Core Pillars", html:`<table class="content-table"><thead><tr><th>Pillar</th><th>What It Does</th></tr></thead><tbody><tr><td><strong>1. CRM</strong></td><td>Lead and contact management, multiple pipelines, custom fields, activity tracking, task lists, advanced filtering</td></tr><tr><td><strong>2. Communications</strong></td><td>Built-in calling (Power Dialer, Predictive Dialer), email (sequences, templates), SMS — all in one unified inbox</td></tr><tr><td><strong>3. Automation</strong></td><td>Workflows that automate follow-up tasks, lead routing, status changes, and sequence enrollment based on triggers</td></tr><tr><td><strong>4. Sales AI (Chloe)</strong></td><td>AI-generated call summaries, next-step suggestions, email drafts, and coaching insights</td></tr><tr><td><strong>5. Reporting</strong></td><td>Activity reports, pipeline reports, forecasting, leaderboards, and custom views for managers</td></tr></tbody></table>`},
+    {heading:"A Day in the Life of a Close User", html:`<p>Rep opens Close. Their inbox shows all calls, emails, and SMS in one unified feed. <strong>No context-switching.</strong></p><p>Power Dialer is loaded. Rep dials through a curated list. After each call, Close auto-logs with an AI summary.</p><p>Workflow triggers fire. A missed call creates a follow-up task. An email reply moves a lead to the next stage.</p><p>End-of-day: Manager pulls the activity dashboard. 47 calls, 12 emails, 8 connected conversations — all logged without manual entry.</p>`},
+    {heading:"Plan Structure", html:`<table class="content-table"><thead><tr><th>Plan</th><th>Price & Target</th></tr></thead><tbody><tr><td><strong>Solo</strong></td><td>From $9/mo | Individual reps, solo operators</td></tr><tr><td><strong>Essentials</strong></td><td>$49/mo/seat ($35 annual) | Small teams, CRM + communication basics, unlimited contacts</td></tr><tr><td><strong>Growth</strong></td><td>$109/mo/seat ($99 annual) | Most popular; adds workflows, sequences, advanced reporting</td></tr><tr><td><strong>Business</strong></td><td>Contact Close | Enterprise features, custom roles, advanced permissions, dedicated support</td></tr></tbody></table><div class="callout">Growth is your most common close. Most SMB teams (5–25 reps) land here because of automation and workflow features. Position Essentials for early-stage or budget-constrained evaluations.</div>`},
+    {heading:"Key Messages", html:`<div class="callout blue">Close eliminates the single biggest time tax on sales reps: toggling between tools. Everything lives in one screen.</div><div class="callout blue">The Power Dialer alone can triple a rep's call volume in the same number of hours.</div><div class="callout blue">No contracts, no implementation fees, no hidden costs. Material advantage over Salesforce and enterprise CRM.</div>`}
+  ],
+  quiz:[
+    {q:"Which of the following is NOT one of Close's Five Core Pillars?",opts:["CRM","Communications","Marketing Automation","Reporting"],correct:2,exp:"The five pillars are: CRM, Communications, Automation, Sales AI (Chloe), and Reporting. Marketing Automation is not a Close pillar — Close is a sales platform, not a marketing platform."},
+    {q:"What does the Close unified inbox combine?",opts:["Email and calendar only","Calls, emails, and SMS in one feed","Chat, video, and social media","CRM data and marketing analytics"],correct:1,exp:"Close's unified inbox combines calls, emails, and SMS — eliminating the need for context-switching between tools. This is Close's #1 value driver."},
+    {q:"The Growth plan is priced at (annual billing):",opts:["$9/mo per seat","$49/mo per seat","$99/mo per seat","Contact Close for pricing"],correct:2,exp:"The Growth plan is $109/mo per seat on monthly billing, or $99/mo per seat on annual billing. It's described as the 'most popular' plan for SMB teams."},
+    {q:"According to the curriculum, what can the Power Dialer do for a sales rep?",opts:["Automate follow-up emails automatically","Triple a rep's call volume in the same number of hours","Generate AI lead scores in real time","Route leads based on geography"],correct:1,exp:"The curriculum states: 'The Power Dialer alone can triple a rep's call volume in the same number of hours.' This is a core differentiating feature to highlight in demos."},
+    {q:"Chloe is Close's:",opts:["Customer support chatbot for end users","Sales AI and intelligence layer built into Close","Email marketing and campaign automation tool","Third-party integration and API platform"],correct:1,exp:"Chloe is Close's embedded AI assistant (Sales AI), designed to reduce administrative burden on reps and surface coaching insights for managers. It's one of the five core pillars."}
+  ]
+},
+{
+  id:3, title:"GTM Preparedness", subtitle:"Messaging that converts. Pricing that sticks.",
+  duration:"35–45 min", icon:"🎯",
+  objective:"Product knowledge gets you in the room. GTM readiness gets you the deal. This module gives you the positioning frameworks, persona-specific messaging, and pricing conversation guides that turn a demo into a signed contract.",
+  objectives:[
+    "Use the Close value framework to build prospect-specific positioning","Identify the three primary buyer personas and tailor your message to each","Navigate pricing conversations without discounting reflexively","Handle the most common competitive objections"
+  ],
+  sections:[
+    {heading:"The Close Value Framework", html:`<p>Every prospect conversation should be anchored to one of three value drivers. Identify which applies <strong>before you open your mouth.</strong></p><table class="content-table"><thead><tr><th>Value Driver</th><th>When It Applies</th></tr></thead><tbody><tr><td><strong>Speed to Revenue</strong></td><td>Team is slow, manual, or misses follow-ups. Dialers and automation compress time-to-contact.</td></tr><tr><td><strong>Data Visibility</strong></td><td>Leadership can't see what reps are doing. Auto-logging and reporting solve the gap.</td></tr><tr><td><strong>Tool Consolidation</strong></td><td>Pays for 3–5 tools that don't talk to each other. Close replaces all of them.</td></tr></tbody></table>`},
+    {heading:"Three Buyer Personas", html:`<table class="content-table"><thead><tr><th>Persona</th><th>What to Emphasize</th></tr></thead><tbody><tr><td><strong>Sales Manager / VP Sales</strong></td><td>Cares about rep productivity, pipeline visibility, coaching. Lead with: Power Dialer volume, activity dashboards, call recordings.</td></tr><tr><td><strong>Founder / CEO</strong></td><td>Cares about revenue growth, efficiency, cost. Lead with: ROI, consolidation savings, no long-term contracts.</td></tr><tr><td><strong>Sales Rep (End User)</strong></td><td>Cares about ease of use, not more admin. Lead with: unified inbox, one-click logging, AI summaries that eliminate call notes.</td></tr></tbody></table>`},
+    {heading:"Pricing Conversations That Don't End in Discounts", html:`<p>Follow this sequence to anchor pricing to value before naming a number:</p><p><strong>1. Anchor to current cost:</strong> "What are you paying today across all your sales tools combined?" Most prospects pay more than Close total cost.</p><p><strong>2. Anchor to time cost:</strong> "How much time per rep per day goes to logging, switching tools, or chasing cold leads?" (30 min × 12 reps × 250 days = 1,500 hours/yr lost.)</p><p><strong>3. Anchor to revenue:</strong> "If your reps made 20 more dials per day, what would that mean for closed revenue per month?"</p><p><strong>4. Then name the number:</strong> "Growth plan runs $99/seat/month on annual. For a team of 12, that's $1,188/month. Based on what you told me, that pays for itself in week one."</p>`},
+    {heading:"Competitive Quick Reference", html:`<table class="content-table"><thead><tr><th>Competitor</th><th>Close's Edge</th></tr></thead><tbody><tr><td><strong>vs. Salesforce</strong></td><td>Close wins on simplicity and speed. Salesforce requires a consultant and 90 days to implement. Close is live in a week. Cost is 5–10x less.</td></tr><tr><td><strong>vs. HubSpot</strong></td><td>HubSpot is a marketing platform. Close is a sales platform. HubSpot's Sales Hub needed to match Close features often exceeds Close total cost.</td></tr><tr><td><strong>vs. Pipedrive</strong></td><td>Pipedrive lacks native communication tools. You need a separate dialer and SMS platform. Close eliminates both.</td></tr><tr><td><strong>vs. GoHighLevel</strong></td><td>GHL is a marketing/agency platform. Close is pure-play sales CRM. Reps find GHL complex. Close wins on UX and speed to value.</td></tr></tbody></table>`},
+    {heading:"One-Page Positioning Script", html:`<div class="callout green">OPENING: "Tell me about how your sales team operates day-to-day. What does a rep's morning look like?"</div><div class="callout green">PROBE: "How much time per rep per day goes to non-selling work — logging calls, switching tools, following up manually?"</div><div class="callout green">BRIDGE: "What you're describing is exactly what Close is built to solve..."</div><div class="callout green">CLOSE: "Does this feel like it maps to what you're solving for?"</div>`}
+  ],
+  quiz:[
+    {q:"The three value drivers in the Close Value Framework are:",opts:["Price, Features, and Support","Speed to Revenue, Data Visibility, and Tool Consolidation","Acquisition, Retention, and Expansion","Brand, Product, and Customer Service"],correct:1,exp:"The three value drivers are Speed to Revenue, Data Visibility, and Tool Consolidation. Identify which applies to your prospect before opening your pitch."},
+    {q:"When speaking to a Founder or CEO, what should you lead with?",opts:["Power Dialer volume and call recording features","Rep adoption rate and ease of onboarding","ROI, consolidation savings, and no long-term contracts","Team leaderboards and coaching insights"],correct:2,exp:"Founders and CEOs care about revenue growth, efficiency, and cost. Lead with ROI, consolidation savings, and the absence of long-term contracts."},
+    {q:"The correct sequence for a pricing conversation is:",opts:["Name the price first, then justify it","Lead with a discount to establish goodwill","Anchor to current cost → anchor to time cost → anchor to revenue → name the number","Compare to competitors' pricing first"],correct:2,exp:"Always anchor to the cost of the status quo before naming your price. This frames Close's cost as an investment with a calculable ROI, not just an expense."},
+    {q:"Close's edge vs. Pipedrive is:",opts:["Close has significantly lower monthly pricing","Close has more native integrations available","Pipedrive lacks native communication tools — Close eliminates the need for a separate dialer and SMS platform","Close offers a better mobile experience"],correct:2,exp:"Pipedrive lacks native communication tools. Prospects using Pipedrive typically pay for a separate dialer and SMS tool. Close replaces all of them in one platform."},
+    {q:"The One-Page Positioning Script ends with which question?",opts:["'What's your budget for a new CRM?'","'Would you like to start a free trial?'","'Does this feel like it maps to what you're solving for?'","'Can I send you our pricing sheet?'"],correct:2,exp:"The script closes with 'Does this feel like it maps to what you're solving for?' — a question that invites the prospect to confirm alignment before moving to next steps."}
+  ]
+},
+{
+  id:4, title:"Product Knowledge L2", subtitle:"Customization, API & Integration Ecosystem",
+  duration:"30–40 min", icon:"🔧",
+  objective:"One-size-fits-all is a myth in CRM sales. This module arms you with the knowledge to show prospects that Close can flex to their needs — without overpromising or over-engineering.",
+  objectives:[
+    "Describe Close's customization capabilities at the field, pipeline, and workflow level","Explain Close's API and its practical use cases for client integrations","Navigate the 100+ native integration ecosystem confidently","Set appropriate client expectations on custom configuration scope"
+  ],
+  sections:[
+    {heading:"Customization at Three Levels", html:`<table class="content-table"><thead><tr><th>Layer</th><th>What Can Be Customized</th></tr></thead><tbody><tr><td><strong>Data Layer</strong></td><td>Custom fields on leads, contacts, and opportunities. Field types: text, number, date, dropdown, checkbox, multi-select. Adapts to any vertical.</td></tr><tr><td><strong>Pipeline Layer</strong></td><td>Multiple pipelines with custom stages, probability weights, and close date expectations. Ideal for multiple sales motions.</td></tr><tr><td><strong>Automation Layer</strong></td><td>Workflows trigger on field changes, activity completion, status changes, or form submissions. Actions include task creation, assignment, sequences, field updates, and webhook firing.</td></tr></tbody></table>`},
+    {heading:"The Close API — Practical Use Cases", html:`<p>You don't need to be a developer to have this conversation. You need to know the API exists, what it connects, and when to involve a technical resource.</p><ul style="list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:10px"><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#3b82f6">→</span>Bi-directional sync with an existing ERP or billing system (e.g., push a new Stripe customer to Close as a new lead)</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#3b82f6">→</span>Automated lead routing from a marketing funnel (e.g., Webflow form fill creates Close lead with assignment logic)</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#3b82f6">→</span>Custom reporting dashboards pulling Close activity data into a BI tool (Looker, Google Sheets, Retool)</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#3b82f6">→</span>Webhook-triggered automations in Make.com or Zapier when Close events fire</li></ul>`},
+    {heading:"The Integration Ecosystem", html:`<table class="content-table"><thead><tr><th>Category</th><th>Tools</th></tr></thead><tbody><tr><td><strong>Communication</strong></td><td>Zoom, Google Meet, Slack, Twilio</td></tr><tr><td><strong>Scheduling</strong></td><td>Calendly, PepoSmart, Chili Piper</td></tr><tr><td><strong>Data Enrichment</strong></td><td>Clay, Apollo, ZoomInfo</td></tr><tr><td><strong>Proposal / Contract</strong></td><td>PandaDoc, DocuSign, Proposify</td></tr><tr><td><strong>Finance / Billing</strong></td><td>Stripe, QuickBooks</td></tr><tr><td><strong>Automation Platforms</strong></td><td>Zapier, Make.com, n8n</td></tr></tbody></table>`},
+    {heading:"Key Principle", html:`<div class="callout blue">You don't need to be a developer to talk about the Close API. You need to know it exists, understand what it connects, and know when to bring in a technical resource. That's the full scope of your role in these conversations.</div>`}
+  ],
+  quiz:[
+    {q:"The three layers of Close customization are:",opts:["Basic, Standard, and Advanced","Data Layer, Pipeline Layer, and Automation Layer","Leads, Contacts, and Opportunities","Fields, Reports, and Dashboards"],correct:1,exp:"Close customization operates at three levels: Data Layer (custom fields), Pipeline Layer (stages and pipelines), and Automation Layer (workflow triggers and actions)."},
+    {q:"Which is a practical use case for the Close API?",opts:["Sending physical mailers to prospects","Bi-directional sync with an ERP or billing system like Stripe","Running email newsletter campaigns","Creating printed sales reports"],correct:1,exp:"A key API use case is bi-directional sync with an ERP or billing system — for example, pushing a new Stripe customer into Close as a new lead automatically."},
+    {q:"Make.com and Zapier are categorized as what type of integration?",opts:["Communication tools","Scheduling tools","Data Enrichment tools","Automation Platforms"],correct:3,exp:"Make.com, Zapier, and n8n are all categorized as Automation Platforms in the Close integration ecosystem."},
+    {q:"What custom field types does Close support?",opts:["Text and number only","Date and time fields only","Text, number, date, dropdown, checkbox, multi-select","Only predefined field types from a fixed library"],correct:2,exp:"Close's Data Layer supports custom fields of type: text, number, date, dropdown, checkbox, and multi-select — allowing it to adapt to virtually any industry or vertical."},
+    {q:"As a partner, when should you involve a technical resource in an API discussion?",opts:["Never — partners must handle all technical conversations themselves","Always — API discussions are always too complex for non-developers","When you know the API exists, what it connects, and the client has specific integration needs","Only when the contract value exceeds $50,000"],correct:2,exp:"The curriculum is clear: you need to know the API exists, what it connects, and when to involve a technical resource. You don't need to be a developer — just know enough to identify when one is needed."}
+  ]
+},
+{
+  id:5, title:"ICP & Sales Readiness", subtitle:"Who to sell to. How to qualify fast.",
+  duration:"35–45 min", icon:"🎯",
+  objective:"Selling to the wrong clients destroys your reputation faster than anything. This module defines Close's ICP with precision and gives you a qualification framework that separates buyers from browsers.",
+  objectives:[
+    "Define Close's ideal customer profile with firmographic and behavioral precision","Apply the QUALIFY framework to screen prospects in or out in a first call","Run a structured discovery conversation that uncovers pain before pitching product","Recognize disqualification signals that save you from bad-fit implementations"
+  ],
+  sections:[
+    {heading:"Close's Ideal Customer Profile", html:`<table class="content-table"><thead><tr><th>Attribute</th><th>ICP Definition</th></tr></thead><tbody><tr><td><strong>Company Size</strong></td><td>5–200 employees (sweet spot: 10–75)</td></tr><tr><td><strong>Sales Team Size</strong></td><td>1–50 sales reps</td></tr><tr><td><strong>Sales Motion</strong></td><td>Outbound, inbound, or blended — high volume of daily sales activities</td></tr><tr><td><strong>Comms Mix</strong></td><td>Heavy reliance on phone + email + SMS</td></tr><tr><td><strong>Current CRM</strong></td><td>Transitioning from spreadsheets, HubSpot (free), Pipedrive, or legacy dialer-CRM combo</td></tr><tr><td><strong>Industry</strong></td><td>SaaS, insurance, real estate, financial services, home services, recruiting</td></tr><tr><td><strong>Funding Stage</strong></td><td>Bootstrapped to Series B</td></tr></tbody></table>`},
+    {heading:"Disqualification Signals", html:`<ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px"><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Less than 3 active salespeople (ROI math rarely works at this scale)</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Primary need is marketing automation, not sales execution</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Requires complex custom objects or deep ERP integration out of the gate</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Enterprise procurement requiring extended security review</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Sales team does not use the phone at all (Close's #1 value driver is neutered)</li></ul>`},
+    {heading:"The QUALIFY Framework", html:`<table class="content-table"><thead><tr><th>Letter</th><th>Qualification Question</th></tr></thead><tbody><tr><td><strong>Q — Quantified Pain</strong></td><td>Can they articulate a problem with a measurable cost? 'Reps spend 2 hours/day on admin' is quantified. 'We need a better CRM' is not.</td></tr><tr><td><strong>U — Urgency</strong></td><td>Is there a reason to act now? New hire? Lost deal? Q-end push? No urgency = no timeline.</td></tr><tr><td><strong>A — Authority</strong></td><td>Is the person you're talking to a decision-maker, or do you need access to one?</td></tr><tr><td><strong>L — Level of Fit</strong></td><td>Does their team size, sales motion, and current stack match the Close ICP?</td></tr><tr><td><strong>I — Integration Complexity</strong></td><td>Are there technical blockers that could stall the deal?</td></tr><tr><td><strong>F — Financial Capacity</strong></td><td>Can they afford the plan that solves their problem?</td></tr><tr><td><strong>Y — Your Advantage</strong></td><td>Is there a reason they would choose to work with you vs. buying direct?</td></tr></tbody></table><div class="callout">QUALIFY Score: 15+ = Pursue aggressively &nbsp;|&nbsp; 10–14 = Qualified with conditions &nbsp;|&nbsp; &lt;10 = Disqualify</div>`}
+  ],
+  quiz:[
+    {q:"What is Close's ICP sweet spot for company size?",opts:["1–5 employees","10–75 employees","100–500 employees","500+ employees"],correct:1,exp:"Close's ICP is companies with 5–200 employees, with the sweet spot being 10–75. Outside this range, the ROI math becomes harder to justify."},
+    {q:"Which of the following IS a disqualification signal for Close?",opts:["A 20-person outbound sales team in SaaS","A company currently using Pipedrive","A team's primary need is marketing automation, not sales execution","A startup in the real estate industry at Series A"],correct:2,exp:"If the prospect's primary need is marketing automation rather than sales execution, they are not a Close ICP fit. Close is a sales platform, not a marketing platform."},
+    {q:"In the QUALIFY framework, what does 'A' stand for?",opts:["Activity level of the sales team","Annual budget available","Authority — is the person a decision-maker?","Adoption readiness of the team"],correct:2,exp:"'A' stands for Authority. You need to determine whether the person you're speaking with is a decision-maker or whether you need access to one before moving forward."},
+    {q:"A QUALIFY framework score of 12 should lead to:",opts:["Pursue aggressively","Qualified with conditions — proceed carefully","Disqualify immediately","Request a second discovery call before deciding"],correct:1,exp:"QUALIFY scoring: 15+ = Pursue aggressively | 10–14 = Qualified with conditions | <10 = Disqualify. A score of 12 falls in the 'Qualified with conditions' range."},
+    {q:"Quantified Pain means the prospect:",opts:["Says 'we need a better CRM' without specifics","Has a general frustration with their current tool","Can articulate a problem with a measurable cost, like 'reps spend 2 hours/day on admin'","Is willing to start a free trial immediately"],correct:2,exp:"Quantified Pain requires a measurable cost attached to the problem. 'We need a better CRM' is not quantified. 'Reps spend 2 hours/day on admin' is quantified and actionable."}
+  ]
+},
+{
+  id:6, title:"Product Demonstrations", subtitle:"Demos that open with pain. Close with urgency.",
+  duration:"40–50 min", icon:"🖥️",
+  objective:"A bad demo loses deals that discovery won. A great demo wins deals that pricing almost lost. This module teaches you how to run a Close demo that connects product capability directly to the prospect's stated pain.",
+  objectives:[
+    "Structure a 30-minute demo that opens with pain and closes with urgency","Adapt the demo narrative for three different buyer personas","Handle the five most common objections in a Close evaluation","Use the demo to create clear next-step momentum, not buyer indecision"
+  ],
+  sections:[
+    {heading:"The Three Laws of a Great Close Demo", html:`<div class="callout blue"><strong>Law 1:</strong> Show solutions to their problems, not features of your product. Every screen: "You told me that [pain]. Here's how Close solves that."</div><div class="callout blue"><strong>Law 2:</strong> Demo the rep experience first, the manager experience second. Reps are the end users. Win them, eliminate internal resistance.</div><div class="callout blue"><strong>Law 3:</strong> End every demo with a question, not a presentation. "Based on what you've seen, does this solve the problem you described?"</div>`},
+    {heading:"30-Minute Demo Structure", html:`<table class="content-table"><thead><tr><th>Time</th><th>Demo Focus</th></tr></thead><tbody><tr><td><strong>0–5 min</strong></td><td>Recap and anchor: restate their top 2–3 pain points from discovery before showing anything.</td></tr><tr><td><strong>5–12 min</strong></td><td>The rep view: unified inbox, how calls are logged, the Power Dialer. This creates visceral buy-in from end users.</td></tr><tr><td><strong>12–20 min</strong></td><td>The automation story: show a workflow trigger, explain time savings in minutes-per-rep-per-day.</td></tr><tr><td><strong>20–25 min</strong></td><td>The manager view: activity dashboard, pipeline report, call recordings. Connect to visibility pain.</td></tr><tr><td><strong>25–30 min</strong></td><td>Close with their use case: "Imagine your 12 reps starting their day here..." Then ask for next step.</td></tr></tbody></table>`},
+    {heading:"Adapting by Persona", html:`<table class="content-table"><thead><tr><th>Persona</th><th>Demo Lead</th></tr></thead><tbody><tr><td><strong>Sales Manager</strong></td><td>Lead with manager dashboard and call recordings. Show leaderboards. Emphasize coaching.</td></tr><tr><td><strong>Founder / CEO</strong></td><td>Lead with cost consolidation story. Show 3-tool stack replaced by one Close account. Do the math live.</td></tr><tr><td><strong>Sales Rep</strong></td><td>Lead with the inbox. Make the dialer demo visceral. Show AI summary to remove the note-taking fear.</td></tr></tbody></table>`},
+    {heading:"The Five Most Common Objections", html:`<table class="content-table"><thead><tr><th>Objection</th><th>Response</th></tr></thead><tbody><tr><td>'We just started using [competitor].'</td><td>'If [competitor] is solving the communication and automation problem you described, you're all set. Is it?'</td></tr><tr><td>'Can it integrate with [X]?'</td><td>'Let me confirm the exact integration path for [X]. I'm confident it connects, but I'll verify and follow up.'</td></tr><tr><td>'It seems expensive.'</td><td>Anchor to cost of status quo. Never apologize for pricing.</td></tr><tr><td>'We need to involve IT/Legal.'</td><td>'What does that process look like, and what's the timeline?' Keep momentum on their end.</td></tr><tr><td>'We need to think about it.'</td><td>'Help me understand what's not clear yet — is it fit, budget, or timing?'</td></tr></tbody></table>`}
+  ],
+  quiz:[
+    {q:"The first law of a great Close demo is:",opts:["Start with pricing to manage expectations early","Show all product features systematically from left to right","Show solutions to their problems, not features of your product","Demo the manager view first to establish credibility"],correct:2,exp:"Law 1: Show solutions to their problems, not features of your product. Every screen you show should be framed as: 'You told me that [pain]. Here's how Close solves that.'"},
+    {q:"In the 30-minute demo structure, what happens during minutes 5–12?",opts:["Recap the prospect's pain points from discovery","The rep view: unified inbox, call logging, Power Dialer","The manager view: activity dashboard and pipeline report","Pricing discussion and next steps"],correct:1,exp:"Minutes 5–12 are the rep view: showing the unified inbox, how calls are logged, and the Power Dialer. This is where you create visceral buy-in from end users."},
+    {q:"When a prospect says 'It seems expensive,' you should:",opts:["Offer a discount to close the deal","Apologize and move to a lower-tier plan","Anchor to the cost of their current status quo — never apologize for pricing","Send a pricing comparison spreadsheet"],correct:2,exp:"The curriculum is explicit: 'Anchor to cost of status quo. Never apologize for pricing.' Show them what they're currently paying across all tools before defending Close's price."},
+    {q:"How should you adapt the demo for a Founder/CEO?",opts:["Lead with the unified inbox and rep experience","Lead with coaching tools, call recordings, and leaderboards","Lead with the cost consolidation story and do the math live","Lead with advanced workflow automation capabilities"],correct:2,exp:"Founders/CEOs care about revenue growth, efficiency, and cost. Lead with the cost consolidation story — show how Close replaces multiple tools, and do the math on savings live during the demo."},
+    {q:"How should every Close demo end?",opts:["With a comprehensive recap of all features shown","With a question that drives next-step clarity, not a presentation","With a detailed pricing proposal emailed immediately","With a list of all integrations available"],correct:1,exp:"Law 3: End every demo with a question, not a presentation. 'Based on what you've seen, does this solve the problem you described?' This invites confirmation and creates momentum for next steps."}
+  ]
+},
+{
+  id:7, title:"Product Knowledge L3", subtitle:"Chloe AI, multi-team builds & complex implementations",
+  duration:"35–45 min", icon:"🤖",
+  objective:"Your deepest clients will push Close to its ceiling. This module prepares you for advanced conversations — from Chloe AI's full capability set to multi-team configurations and complex implementation patterns.",
+  objectives:[
+    "Describe Chloe AI's full feature set and how it changes the sales rep experience","Configure multi-team and multi-pipeline setups for clients with complex org structures","Understand advanced workflow and automation patterns beyond basic sequences","Know when to scope an implementation as standard vs. advanced (and price accordingly)"
+  ],
+  sections:[
+    {heading:"Chloe AI — Close's Sales Intelligence Layer", html:`<table class="content-table"><thead><tr><th>Feature</th><th>What It Does</th></tr></thead><tbody><tr><td><strong>Call Summaries</strong></td><td>AI-generated summaries after every call. Key points, next steps, sentiment — no manual notes required.</td></tr><tr><td><strong>Next-Step Suggestions</strong></td><td>After a call, Chloe suggests the most appropriate follow-up action based on the conversation.</td></tr><tr><td><strong>Email Drafting</strong></td><td>Chloe drafts follow-up emails based on call context. Reps edit and send, not write from scratch.</td></tr><tr><td><strong>Coaching Insights</strong></td><td>Managers see AI-flagged call moments — objections, pricing, competitor mentions — without listening to every recording.</td></tr><tr><td><strong>Lead Scoring</strong></td><td>AI-driven lead prioritization based on engagement signals and historical conversion patterns.</td></tr></tbody></table><div class="callout blue">Every Chloe action happens inside the system your team already uses. No new tools. Full context.</div>`},
+    {heading:"Advanced Workflow Patterns", html:`<table class="content-table"><thead><tr><th>Pattern</th><th>Use Case</th></tr></thead><tbody><tr><td><strong>Lead Routing</strong></td><td>Automatically assign new leads based on geography, industry, or round-robin logic.</td></tr><tr><td><strong>Conditional Branching</strong></td><td>Workflows taking different paths based on field values (e.g., deal size > $10K routes to senior rep).</td></tr><tr><td><strong>Cross-Tool Webhooks</strong></td><td>Close fires webhooks to Slack, Zapier, or Make when specific events occur.</td></tr><tr><td><strong>Drip + Task Combo</strong></td><td>Sequence of emails + auto-created tasks ensures multi-touch follow-up without rep intervention.</td></tr><tr><td><strong>Re-engagement Flows</strong></td><td>Auto-detect leads with no activity in X days and enroll in a re-engagement sequence.</td></tr></tbody></table>`},
+    {heading:"Implementation Scope Levels", html:`<table class="content-table"><thead><tr><th>Scope Level</th><th>Characteristics & Hours</th></tr></thead><tbody><tr><td><strong>Standard</strong></td><td>1 pipeline, basic custom fields, simple email sequence, migrating from spreadsheets. Scope: 5–10 hours.</td></tr><tr><td><strong>Intermediate</strong></td><td>Multiple pipelines, workflow automations, 1–2 integrations, team training. Scope: 15–25 hours.</td></tr><tr><td><strong>Advanced</strong></td><td>Multi-team build, API integration, custom reporting, complex workflow logic, data migration from enterprise CRM. Scope: 40+ hours.</td></tr></tbody></table>`}
+  ],
+  quiz:[
+    {q:"Which Chloe AI feature helps managers review calls without listening to every recording?",opts:["Lead Scoring","Email Drafting","Next-Step Suggestions","Coaching Insights"],correct:3,exp:"Coaching Insights allows managers to see AI-flagged call moments — objections, pricing mentions, competitor mentions — without having to listen to every full call recording."},
+    {q:"What scope and hours apply to an Advanced implementation?",opts:["1 pipeline, basic fields — 5–10 hours","Multiple pipelines, 1–2 integrations — 15–25 hours","Multi-team build, API integration, complex workflows — 40+ hours","Solo rep setup with email templates — 2–5 hours"],correct:2,exp:"An Advanced implementation involves multi-team builds, API integration, custom reporting, complex workflow logic, and data migration from enterprise CRM. It requires 40+ hours."},
+    {q:"'Conditional Branching' as an advanced workflow pattern means:",opts:["Creating multi-step email drip sequences","Automatically assigning leads by geography or round-robin","Workflows that take different paths based on field values (e.g., deal size > $10K)","Re-engaging leads with no activity after X days"],correct:2,exp:"Conditional Branching means workflows take different paths based on field values — for example, routing a deal over $10K to a senior rep automatically."},
+    {q:"What does Chloe's Next-Step Suggestion feature do?",opts:["Scores leads based on engagement signals","Drafts a full follow-up email from scratch","After a call, suggests the most appropriate follow-up action based on the conversation","Flags pricing objections for manager review"],correct:2,exp:"Next-Step Suggestions: after a call, Chloe suggests the most appropriate follow-up action based on the conversation content. This keeps rep workflows moving without manual thinking."},
+    {q:"An Intermediate implementation scope typically includes:",opts:["1 pipeline and basic custom fields, migrating from spreadsheets (5–10 hours)","Multiple pipelines, workflow automations, 1–2 integrations, and team training (15–25 hours)","Multi-team build, API integration, and custom reporting (40+ hours)","Solo rep onboarding with no custom configuration (1–2 hours)"],correct:1,exp:"Intermediate scope: multiple pipelines, workflow automations, 1–2 integrations, and team training. Estimated at 15–25 hours. This is the most common scope for growing SMB clients."}
+  ]
+},
+{
+  id:8, title:"Client Success Delivery", subtitle:"Implementation. Early value. First 90 days.",
+  duration:"35–45 min", icon:"🚀",
+  objective:"The implementation phase is where partner reputations are built or destroyed. A smooth launch creates evangelists who refer you business. A fumbled one creates churned accounts and negative referrals.",
+  objectives:[
+    "Execute a phased 30/60/90-day implementation plan for new Close clients","Define and track early value indicators that prove ROI before the first renewal conversation","Run an effective onboarding session that drives rep adoption immediately","Identify and resolve common implementation blockers before they become client issues"
+  ],
+  sections:[
+    {heading:"The 30/60/90-Day Close Implementation Framework", html:`<table class="content-table"><thead><tr><th>Phase</th><th>Goal</th><th>Key Activities</th></tr></thead><tbody><tr><td><strong>Days 1–30</strong><br/>Foundation</td><td>Every rep can do their daily job in Close.</td><td>Config, migration, admin training, first workflow live.</td></tr><tr><td><strong>Days 31–60</strong><br/>Activation</td><td>Close is the primary system of record.</td><td>Full team on platform, sequences active, integrations live.</td></tr><tr><td><strong>Days 61–90</strong><br/>Optimization</td><td>Client can articulate measurable impact.</td><td>Workflow audit, advanced features introduced, first ROI review.</td></tr></tbody></table>`},
+    {heading:"Early Value Indicators (EVIs)", html:`<p>Define these with the client <strong>before implementation begins</strong>. If you can't measure it, you can't prove it — and you can't renew on it.</p><ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:12px"><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#10b981">✓</span>Call volume per rep per day (baseline vs. Week 4 comparison)</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#10b981">✓</span>Time from lead creation to first contact (should decrease with workflow automation)</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#10b981">✓</span>Manual logging time eliminated per rep per week</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#10b981">✓</span>Pipeline visibility score — manager's self-rated confidence in forecast accuracy</li><li style="font-size:13px;color:#cbd5e1;padding-left:20px;position:relative"><span style="position:absolute;left:0;color:#10b981">✓</span>Rep adoption rate — % of reps actively using Close as primary tool by Day 30</li></ul>`},
+    {heading:"Common Implementation Blockers & Prevention", html:`<table class="content-table"><thead><tr><th>Blocker</th><th>Prevention</th></tr></thead><tbody><tr><td><strong>Data migration scope creep</strong></td><td>Lock the migration spec in writing before starting. Add-ons are change orders.</td></tr><tr><td><strong>Rep resistance to new tool</strong></td><td>Hold a 'what's in it for me' session for reps separately from manager training.</td></tr><tr><td><strong>Integration delayed by vendor</strong></td><td>Set integration milestones 2 weeks ahead of need. Never let a third party block your go-live.</td></tr><tr><td><strong>Admin contact unavailable</strong></td><td>Identify a backup admin on Day 1. One point of contact is a single point of failure.</td></tr><tr><td><strong>Scope creep from client</strong></td><td>Every new request: 'Let me assess whether that's in scope or a change order.' Never say yes on the spot.</td></tr></tbody></table>`},
+    {heading:"Client Kickoff Agenda (90 Minutes)", html:`<div class="callout green">0–10 min: Introductions, goals, and success definition for both sides</div><div class="callout green">10–25 min: Technical review — data migration spec, integration requirements, user setup</div><div class="callout green">25–40 min: Configuration walkthrough — pipelines, stages, custom fields review</div><div class="callout green">40–55 min: Training plan — who attends, when, format (live vs. recorded)</div><div class="callout green">55–70 min: Early Value Indicators — agree on 3–5 metrics for Day 30 and Day 90</div><div class="callout green">70–80 min: Communication plan — primary contact, weekly check-in cadence</div><div class="callout green">80–90 min: 30/60/90 milestones review and sign-off</div>`}
+  ],
+  quiz:[
+    {q:"During Days 31–60 (Activation phase), what is the primary goal?",opts:["Every rep can do their daily job in Close","Close is the primary system of record for the team","Client can articulate measurable business impact","Workflow audit and advanced features have been introduced"],correct:1,exp:"Days 31–60 (Activation): the goal is that Close is the primary system of record. The full team is on the platform, sequences are active, and integrations are live."},
+    {q:"Early Value Indicators (EVIs) should be defined:",opts:["At the first renewal conversation","After 90 days of usage, based on available data","Before implementation begins","When the client requests reporting access"],correct:2,exp:"EVIs must be defined with the client before implementation begins. 'If you can't measure it, you can't prove it — and you can't renew on it.'"},
+    {q:"The best prevention for 'rep resistance to new tool' is:",opts:["Making the tool mandatory immediately with no transition period","Holding a 'what's in it for me' session for reps separately from manager training","Providing extra documentation and self-paced learning","Ignoring it and letting managers handle the resistance"],correct:1,exp:"Hold a 'what's in it for me' session for reps separately from manager training. Reps need to understand the personal benefit — fewer notes, fewer tool switches — not just management's agenda."},
+    {q:"The Client Kickoff Agenda is designed to run for:",opts:["30 minutes","60 minutes","90 minutes","3 hours"],correct:2,exp:"The Client Kickoff Agenda is 90 minutes, covering introductions, technical review, configuration walkthrough, training plan, EVIs, communication plan, and 30/60/90 milestone sign-off."},
+    {q:"When a client requests something outside the agreed project scope, you should:",opts:["Always say yes to maintain the client relationship","Refuse politely and document the request","Say 'Let me assess whether that's in scope or a change order' — never say yes on the spot","Add it immediately at no charge to build goodwill"],correct:2,exp:"Every out-of-scope request should be met with: 'Let me assess whether that's in scope or a change order.' Never say yes on the spot. Scope creep from clients is a listed blocker and must be managed proactively."}
+  ]
+},
+{
+  id:9, title:"Client Retention & Expansion", subtitle:"No client goes cold. No deal slips through.",
+  duration:"35–45 min", icon:"📈",
+  objective:"Your best new client is one you already have. This module teaches you how to systematically manage renewals before they become churn risks, identify upsell triggers, and build a book of business where existing clients fund new client acquisition.",
+  objectives:[
+    "Execute a proactive renewal process that starts 90 days before the renewal date","Identify the five upsell and expansion signals that indicate a client is ready to grow","Navigate at-risk account conversations that prevent churn before it happens","Build a quarterly business review (QBR) format that strengthens client relationships"
+  ],
+  sections:[
+    {heading:"The Proactive Renewal Framework", html:`<table class="content-table"><thead><tr><th>Timing</th><th>Action</th></tr></thead><tbody><tr><td><strong>Day 90 before renewal</strong></td><td>Check-In Call: Review EVIs vs. baseline. Identify open issues. Get a read on satisfaction.</td></tr><tr><td><strong>Day 60 before renewal</strong></td><td>Expansion Talk: Growing headcount? New use cases? Any new teams to bring onto Close?</td></tr><tr><td><strong>Day 30 before renewal</strong></td><td>Renewal Proposal: ROI summary, case for plan upgrade, multi-year incentive.</td></tr><tr><td><strong>Day 0 (Renewal)</strong></td><td>Paperwork: If you've done Day 90 and 60 right, this is a formality.</td></tr></tbody></table>`},
+    {heading:"Five Expansion Triggers", html:`<ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px"><li style="font-size:13px;color:#cbd5e1;padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#3b82f6;font-weight:700">1.</span><strong>Headcount growth:</strong> Adding reps is the most obvious signal. Every new seat is margin you capture.</li><li style="font-size:13px;color:#cbd5e1;padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#3b82f6;font-weight:700">2.</span><strong>New business unit or product line:</strong> A second team using different pipelines — a new implementation engagement.</li><li style="font-size:13px;color:#cbd5e1;padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#3b82f6;font-weight:700">3.</span><strong>Feature underutilization:</strong> Client on Growth plan but not using workflows. Activation coaching = stickiness + upsell evidence.</li><li style="font-size:13px;color:#cbd5e1;padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#3b82f6;font-weight:700">4.</span><strong>Integration complexity increase:</strong> Client outgrows Zapier and needs API — an engineering services opportunity.</li><li style="font-size:13px;color:#cbd5e1;padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#3b82f6;font-weight:700">5.</span><strong>Executive sponsor change:</strong> New VP Sales often wants to 'own' the tool — natural entry point for re-implementation.</li></ul>`},
+    {heading:"Account Health Scorecard", html:`<table class="content-table"><thead><tr><th>Signal</th><th>Scoring</th></tr></thead><tbody><tr><td><strong>Login frequency (reps)</strong></td><td>Daily(3) / Weekly(2) / Sporadic(1) / None(0)</td></tr><tr><td><strong>Feature adoption</strong></td><td>Full(3) / Partial(2) / Basic(1) / Minimal(0)</td></tr><tr><td><strong>Champion relationship</strong></td><td>Strong(3) / Neutral(2) / Weak(1) / At Risk(0)</td></tr><tr><td><strong>Support tickets/month</strong></td><td>0(3) / 1–2(2) / 3–4(1) / 5+(0)</td></tr><tr><td><strong>Growth signals</strong></td><td>Active(3) / Potential(2) / None(1) / Shrinking(0)</td></tr><tr><td><strong>Renewal status</strong></td><td>Confirmed(3) / On Track(2) / Not Started(1) / Avoided(0)</td></tr></tbody></table><div class="callout">Score /18: 14+ = Healthy &nbsp;|&nbsp; 9–13 = Monitor &nbsp;|&nbsp; &lt;9 = At Risk</div>`}
+  ],
+  quiz:[
+    {q:"The Proactive Renewal Framework recommends the first check-in call at:",opts:["30 days before renewal","60 days before renewal","90 days before renewal","On the renewal date itself"],correct:2,exp:"The renewal process starts 90 days before renewal with a check-in call to review EVIs, identify open issues, and get a read on satisfaction. By the time renewal paperwork arrives, the outcome should already be decided."},
+    {q:"Which of the following IS listed as an expansion trigger?",opts:["Client asks to compare Close vs. a competitor","Login frequency drops significantly","Client's headcount grows and they're adding new sales reps","Multiple support tickets from the same account"],correct:2,exp:"Headcount growth is Expansion Trigger #1: 'Adding reps is the most obvious signal. Every new seat is margin you capture.' The other options listed are at-risk signals, not expansion triggers."},
+    {q:"An Account Health Scorecard total of 7 indicates the account is:",opts:["Healthy (14+ range)","In the Monitor range (9–13)","At Risk (below 9)","Ready for expansion"],correct:2,exp:"Account Health scoring: 14+ = Healthy | 9–13 = Monitor | <9 = At Risk. A score of 7 falls below 9, placing the account firmly in the At Risk category."},
+    {q:"What is the target 12-month client retention rate?",opts:["70%","75%","80%","85%"],correct:3,exp:"The target 12-month retention rate is 85%. This is stated explicitly in the module as the benchmark for a healthy Close partner practice."},
+    {q:"When a key client champion leaves the company, you should:",opts:["Wait for them to introduce you to their successor before acting","Re-establish a relationship with the successor immediately","Pause all renewal conversations until the new contact is onboarded","Escalate to the Close team for account management support"],correct:1,exp:"Champion departure is an at-risk signal. The prescribed response is to re-establish a relationship with the successor immediately. A new VP Sales often wants to 'own' the tool — which is also an expansion opportunity."}
+  ]
+},
+{
+  id:10, title:"Scalable Business Building", subtitle:"Repeatable. Measurable. Yours.",
+  duration:"35–45 min", icon:"📊",
+  objective:"You've learned how to sell Close, implement it, and retain clients. This final module is about turning those skills into a systematized, scalable practice — one that generates predictable revenue, runs without you personally in every conversation, and compounds over time.",
+  objectives:[
+    "Define the five KPIs that measure a healthy Close partner practice","Build a lead generation engine that brings new Close prospects to you consistently","Design a service delivery model that scales beyond your personal capacity","Create an annual planning framework that sets revenue targets and tracks progress"
+  ],
+  sections:[
+    {heading:"The Five KPIs of a Healthy Close Partner Practice", html:`<table class="content-table"><thead><tr><th>KPI</th><th>Definition & Target</th></tr></thead><tbody><tr><td><strong>1. Referrals Submitted</strong></td><td>New client referrals sent to Close monthly. Target: 2+ per month for Tier 1 advancement pace.</td></tr><tr><td><strong>2. Partner Commission MRR</strong></td><td>Monthly recurring commission from all active referrals. Target: grow 10–20% MoM until stable.</td></tr><tr><td><strong>3. Client Activation Rate</strong></td><td>% of referred clients live and actively using Close. Target: >80% within 30 days.</td></tr><tr><td><strong>4. Retention Rate</strong></td><td>% of your referred clients still active at 12 months. Target: >85%.</td></tr><tr><td><strong>5. Expansion Revenue</strong></td><td>Revenue from clients upgrading plans, adding seats, or engaging for additional services. Target: >20% of total MRR growth.</td></tr></tbody></table>`},
+    {heading:"Lead Generation Engine", html:`<table class="content-table"><thead><tr><th>Channel</th><th>Approach</th></tr></thead><tbody><tr><td><strong>Niche Authority Content</strong></td><td>LinkedIn content on CRM optimization for your target vertical. Inbound leads from practitioners who recognize your expertise.</td></tr><tr><td><strong>Strategic Referral Network</strong></td><td>5–10 complementary service providers (marketing agencies, RevOps consultants, sales trainers) serving the same ICP.</td></tr><tr><td><strong>Close Co-marketing</strong></td><td>Leverage Close's partner resources — blog, webinars, partner portal — to get your name in front of Close's existing audience.</td></tr><tr><td><strong>Case Study Pipeline</strong></td><td>Every successful implementation is a case study. 3–5 published per year.</td></tr></tbody></table>`},
+    {heading:"Scalable Service Delivery Model", html:`<table class="content-table"><thead><tr><th>Category</th><th>Activities</th></tr></thead><tbody><tr><td><strong>Requires You</strong></td><td>Sales conversations, strategic discovery, executive relationships, complex scoping, QBR facilitation</td></tr><tr><td><strong>Can Be Delegated</strong></td><td>Account configuration, data migration, integration setup, rep training (with SOPs), weekly check-in calls</td></tr><tr><td><strong>Can Be Systematized</strong></td><td>Onboarding documentation, email templates, training materials, health scoring, renewal outreach</td></tr><tr><td><strong>Can Be Productized</strong></td><td>Fixed-scope implementation packages at standard pricing (Standard: $X / Intermediate: $Y / Advanced: $Z)</td></tr></tbody></table><div class="callout blue">Your practice grows fastest when your referrals experience Close firsthand. Live it. Demo it. Believe it.</div>`}
+  ],
+  quiz:[
+    {q:"What is the target monthly referral submission rate for Tier 1 advancement pace?",opts:["1+ per month","2+ per month","5+ per month","10+ per month"],correct:1,exp:"The target is 2+ referrals per month for Tier 1 advancement pace. This is one of the five KPIs: Referrals Submitted."},
+    {q:"Which of the following is listed as a 'Can Be Delegated' activity?",opts:["Sales conversations and strategic discovery","QBR facilitation with executive clients","Complex implementation scoping","Account configuration, data migration, and integration setup"],correct:3,exp:"Account configuration, data migration, integration setup, and rep training (with SOPs) can all be delegated. Sales conversations, strategic discovery, executive relationships, and QBR facilitation require your direct involvement."},
+    {q:"What is the target Expansion Revenue as a percentage of total MRR growth?",opts:[">5%",">10%",">15%",">20%"],correct:3,exp:"The target for Expansion Revenue (upgrades, new seats, additional services) is >20% of total MRR growth. This measures how well your existing book of business is growing."},
+    {q:"The Five KPIs of a Healthy Close Partner Practice include all of the following EXCEPT:",opts:["Referrals Submitted","Partner Commission MRR","Number of LinkedIn followers and content impressions","Retention Rate"],correct:2,exp:"The five KPIs are: Referrals Submitted, Partner Commission MRR, Client Activation Rate, Retention Rate, and Expansion Revenue. LinkedIn followers is not one of them."},
+    {q:"According to the curriculum, what is the fastest way to grow your Close practice?",opts:["Hiring more salespeople to increase referral volume","Running paid advertising campaigns to find new prospects","Your referrals experiencing Close firsthand — live it, demo it, believe it","Attending every industry conference and networking event"],correct:2,exp:"The curriculum states: 'Your practice grows fastest when your referrals experience Close firsthand. Live it. Demo it. Believe it.' Authenticity and direct experience compound faster than any other growth tactic."}
+  ]
+}
+];
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════════════════════════════════════
+let state = {
+  user: null,       // { firstName, lastName, email }
+  progress: {},     // { moduleId: { score, passed, attempts } }
+  currentModule: null,
+  quizAnswers: [],
+  quizSubmitted: false
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// FIREBASE HELPERS
+// ═══════════════════════════════════════════════════════════════════════════════
+function userDocId(email){ return email.toLowerCase().replace(/[^a-z0-9]/g,'_'); }
+
+async function loadUserProgress(email){
+  if(FIREBASE_READY){
+    try {
+      const doc = await withTimeout(db.collection('partners').doc(userDocId(email)).get());
+      if(doc.exists){
+        const data = doc.data();
+        state.progress = data.moduleProgress || {};
+        return data;
+      }
+    } catch(e){ console.warn('Firebase read failed, falling back to localStorage:', e.message); }
+  }
+  // fallback: localStorage
+  const local = localStorage.getItem('cp_progress_'+email);
+  if(local) state.progress = JSON.parse(local);
+  return null;
+}
+
+async function saveProgress(email, moduleId, score, passed){
+  const entry = { score, passed, attempts: ((state.progress[moduleId]||{}).attempts||0)+1, completedAt: new Date().toISOString() };
+  // keep best score
+  if(state.progress[moduleId] && state.progress[moduleId].score >= score){ entry.score = state.progress[moduleId].score; entry.passed = state.progress[moduleId].passed; }
+  state.progress[moduleId] = entry;
+
+  const completedCount = Object.values(state.progress).filter(m=>m.passed).length;
+  const avgScore = completedCount ? Math.round(Object.values(state.progress).filter(m=>m.passed).reduce((a,m)=>a+m.score,0)/completedCount) : 0;
+  const certified = completedCount >= 10;
+
+  const payload = {
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+    email: state.user.email,
+    moduleProgress: state.progress,
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATE & HELPERS
+// ═══════════════════════════════════════════════════════════════════════════════
+let state={user:null,progress:{},currentModule:null,quizAnswers:[],quizSubmitted:false};
+function userDocId(e){return e.toLowerCase().replace(/[^a-z0-9]/g,'_');}
+
+async function loadUserProgress(email){
+  const local=localStorage.getItem('cp_progress_'+email);
+  if(local) try{state.progress=JSON.parse(local);}catch(e){}
+  if(FIREBASE_READY){
+    try{
+      const doc=await withTimeout(db.collection('partners').doc(userDocId(email)).get());
+      if(doc.exists&&doc.data().moduleProgress){
+        const fp=doc.data().moduleProgress;
+        Object.keys(fp).forEach(k=>{if(!state.progress[k]||fp[k].score>state.progress[k].score)state.progress[k]=fp[k];});
+        localStorage.setItem('cp_progress_'+email,JSON.stringify(state.progress));
+      }
+    }catch(e){console.warn('Firebase read failed:',e.message);}
+  }
+}
+
+async function saveProgress(email,moduleId,score,passed){
+  const existing=state.progress[moduleId];
+  const entry={score,passed,attempts:((existing||{}).attempts||0)+1,completedAt:new Date().toISOString()};
+  if(existing&&existing.score>=score){entry.score=existing.score;entry.passed=existing.passed;}
+  state.progress[moduleId]=entry;
+  const completedCount=Object.values(state.progress).filter(m=>m.passed).length;
+  const avgScore=completedCount?Math.round(Object.values(state.progress).filter(m=>m.passed).reduce((a,m)=>a+m.score,0)/completedCount):0;
+  const payload={firstName:state.user.firstName,lastName:state.user.lastName,email,moduleProgress:state.progress,modulesCompleted:completedCount,avgScore,certified:completedCount>=10,lastActivity:new Date().toISOString()};
+  if(FIREBASE_READY){try{await withTimeout(db.collection('partners').doc(userDocId(email)).set(payload,{merge:true}));}catch(e){console.warn('Firebase write failed:',e.message);}}
+  localStorage.setItem('cp_progress_'+email,JSON.stringify(state.progress));
+}
+
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+(type||'');t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MODULE RENDERING
+// ═══════════════════════════════════════════════════════════════════════════════
+function renderModule(mod){
+  state.currentModule=mod;
+  state.quizSubmitted=false;
+  const prog=state.progress[mod.id];
+
+  document.title=`Module ${mod.id}: ${mod.title} — Close Partner Cert`;
+  document.getElementById('topbar-title').textContent=`Module ${mod.id}: ${mod.title}`;
+  document.getElementById('topbar-pos').textContent=`${mod.id} of 10`;
+  document.getElementById('hero-badge').textContent=`Module ${String(mod.id).padStart(2,'0')}`;
+  document.getElementById('hero-title').innerHTML=`${mod.icon} <em>${mod.title}</em>`;
+  document.getElementById('hero-sub').textContent=mod.subtitle;
+  document.getElementById('pill-dur').textContent=`⏱ ${mod.duration}`;
+
+  const statusPill=document.getElementById('pill-status');
+  if(prog?.passed){statusPill.textContent=`✅ Passed — ${prog.score}%`;statusPill.className='pill status-pass';}
+  else if(prog){statusPill.textContent=`⟳ In Progress — Best: ${prog.score}%`;statusPill.className='pill status-retry';}
+  else{statusPill.textContent='⭕ Not Started';statusPill.className='pill status-open';}
+
+  document.getElementById('mod-objectives').innerHTML=mod.objectives.map(o=>`<li>${o}</li>`).join('');
+  document.getElementById('mod-content').innerHTML=mod.sections.map(s=>`<div class="content-section"><h3>${s.heading}</h3>${s.html}</div>`).join('');
+
+  const partial=getPartialProgress(mod.id);
+  state.quizAnswers=partial?[...partial]:new Array(mod.quiz.length).fill(null);
+  renderQuiz(mod);
+  if(partial&&partial.some(a=>a!==null)) restorePartialAnswers(mod);
+
+  const saveBtn=document.getElementById('btn-save');
+  if(saveBtn) saveBtn.style.display=prog?.passed?'none':'';
+
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// QUIZ ENGINE
+// ═══════════════════════════════════════════════════════════════════════════════
+let currentQ=0;
+
+function renderQuiz(mod){
+  currentQ=0;
+  const dotsEl=document.getElementById('quiz-dots');
+  const qsEl=document.getElementById('quiz-questions');
+  const resEl=document.getElementById('quiz-result-panel');
+  resEl.classList.add('hidden');resEl.innerHTML='';
+  dotsEl.innerHTML=mod.quiz.map((_,i)=>`<div class="quiz-dot" id="dot-${i}"></div>`).join('');
+  qsEl.innerHTML=mod.quiz.map((q,i)=>buildQuestion(q,i)).join('');
+  showQuestion(0);
+}
+
+function buildQuestion(q,i){
+  const L=['A','B','C','D'];
+  return `<div class="question-block" id="qblock-${i}">
+    <div class="question-num">Question ${i+1} of ${state.currentModule.quiz.length}</div>
+    <div class="question-text">${q.q}</div>
+    <div class="options">${q.opts.map((o,oi)=>`<button class="option-btn" id="opt-${i}-${oi}" onclick="selectOption(${i},${oi})"><div class="option-letter">${L[oi]}</div>${o}</button>`).join('')}</div>
+    <div class="explanation-box" id="exp-${i}"><strong>Explanation:</strong> ${q.exp}</div>
+    <div class="quiz-nav"><div></div><button class="btn-next" id="next-btn-${i}" onclick="nextQuestion(${i})" disabled>${i<state.currentModule.quiz.length-1?'Next Question →':'Submit Quiz'}</button></div>
+  </div>`;
+}
+
+function showQuestion(idx){
+  document.querySelectorAll('.question-block').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qblock-'+idx).classList.add('active');
+  document.querySelectorAll('.quiz-dot').forEach((d,i)=>{
+    d.className='quiz-dot';
+    if(i===idx) d.classList.add('current');
+    else if(state.quizAnswers[i]!==null) d.classList.add(state.quizAnswers[i]===state.currentModule.quiz[i].correct?'answered-correct':'answered-wrong');
+  });
+}
+
+function selectOption(qIdx,oIdx){
+  if(state.quizAnswers[qIdx]!==null) return;
+  const q=state.currentModule.quiz[qIdx];
+  state.quizAnswers[qIdx]=oIdx;
+  const correct=oIdx===q.correct;
+  q.opts.forEach((_,i)=>{
+    const btn=document.getElementById(`opt-${qIdx}-${i}`);
+    btn.disabled=true;
+    if(i===q.correct) btn.classList.add('selected-correct');
+    else if(i===oIdx&&!correct) btn.classList.add('selected-wrong');
+  });
+  document.getElementById('exp-'+qIdx).classList.add('show');
+  document.getElementById('dot-'+qIdx).className='quiz-dot '+(correct?'answered-correct':'answered-wrong');
+  document.getElementById('next-btn-'+qIdx).disabled=false;
+}
+
+function nextQuestion(qIdx){
+  if(qIdx<state.currentModule.quiz.length-1){
+    currentQ=qIdx+1;showQuestion(currentQ);
+    document.getElementById('qblock-'+(qIdx+1)).scrollIntoView({behavior:'smooth',block:'start'});
+  } else {submitQuiz();}
+}
+
+async function submitQuiz(){
+  const mod=state.currentModule;
+  const correct=state.quizAnswers.filter((a,i)=>a===mod.quiz[i].correct).length;
+  const total=mod.quiz.length;
+  const score=Math.round(correct/total*100);
+  const passed=score>=80;
+  await saveProgress(state.user.email,mod.id,score,passed);
+  state.quizSubmitted=true;
+  clearPartialProgress(mod.id);
+  const saveBtn=document.getElementById('btn-save');
+  if(saveBtn) saveBtn.style.display='none';
+  const resEl=document.getElementById('quiz-result-panel');
+  resEl.classList.remove('hidden');
+  resEl.innerHTML=`
+    <div class="quiz-result">
+      <div class="result-ring ${passed?'pass':'fail'}">${score}%</div>
+      <div class="result-title">${passed?'🎉 Module Passed!':'📚 Not Quite — Try Again'}</div>
+      <div class="result-sub">${passed?'Great work! The next module is now unlocked.':'You need 80% to pass. Review the content above and retry.'}</div>
+      <div class="result-breakdown">
+        <div class="result-stat"><div class="result-stat-num">${correct}/${total}</div><div class="result-stat-label">Correct</div></div>
+        <div class="result-stat"><div class="result-stat-num">${score}%</div><div class="result-stat-label">Score</div></div>
+        <div class="result-stat"><div class="result-stat-num">${passed?'PASS':'FAIL'}</div><div class="result-stat-label">Result</div></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn-secondary" onclick="location.href='dashboard.html'">← Dashboard</button>
+        ${!passed?`<button class="btn-primary" onclick="retryQuiz()">Retry Quiz</button>`:''}
+        ${passed&&mod.id<10?`<button class="btn-primary" onclick="location.href='module.html?id=${mod.id+1}'">Next Module →</button>`:''}
+        ${passed&&mod.id===10?`<button class="btn-primary" onclick="location.href='certified.html'">Get Certified 🏆</button>`:''}
+      </div>
+    </div>`;
+  resEl.scrollIntoView({behavior:'smooth',block:'start'});
+  if(passed) showToast('Module '+mod.id+' passed! 🎉','success');
+}
+
+function retryQuiz(){
+  const mod=state.currentModule;
+  clearPartialProgress(mod.id);
+  state.quizAnswers=new Array(mod.quiz.length).fill(null);
+  state.quizSubmitted=false;
+  renderQuiz(mod);
+  const saveBtn=document.getElementById('btn-save');
+  if(saveBtn) saveBtn.style.display='';
+  document.getElementById('quiz-section').scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SAVE / EXIT FLOW
+// ═══════════════════════════════════════════════════════════════════════════════
+function partialKey(moduleId){return `partial_${(state.user?.email||'guest')}_${moduleId}`;}
+function getPartialProgress(moduleId){try{return JSON.parse(localStorage.getItem(partialKey(moduleId)));}catch(e){return null;}}
+function savePartialProgress(){
+  const mod=state.currentModule;if(!mod)return;
+  if(state.quizAnswers&&state.quizAnswers.some(a=>a!==null)) localStorage.setItem(partialKey(mod.id),JSON.stringify(state.quizAnswers));
+}
+function clearPartialProgress(moduleId){localStorage.removeItem(partialKey(moduleId));}
+
+function restorePartialAnswers(mod){
+  state.quizAnswers.forEach((ans,qIdx)=>{
+    if(ans===null)return;
+    const q=mod.quiz[qIdx];const correct=ans===q.correct;
+    q.opts.forEach((_,oi)=>{
+      const btn=document.getElementById(`opt-${qIdx}-${oi}`);if(!btn)return;
+      btn.disabled=true;
+      if(oi===q.correct) btn.classList.add('selected-correct');
+      else if(oi===ans&&!correct) btn.classList.add('selected-wrong');
+    });
+    const expEl=document.getElementById('exp-'+qIdx);if(expEl)expEl.classList.add('show');
+    const dotEl=document.getElementById('dot-'+qIdx);if(dotEl)dotEl.className='quiz-dot '+(correct?'answered-correct':'answered-wrong');
+    const nextBtn=document.getElementById('next-btn-'+qIdx);if(nextBtn)nextBtn.disabled=false;
+  });
+  const firstUnanswered=state.quizAnswers.findIndex(a=>a===null);
+  const targetQ=firstUnanswered>=0?firstUnanswered:mod.quiz.length-1;
+  if(targetQ>0)showQuestion(targetQ);
+  showToast('Welcome back! Picking up where you left off. 👋','');
+}
+
+function saveProgressAndStay(){
+  if(state.quizSubmitted)return;
+  savePartialProgress();
+  const btn=document.getElementById('btn-save');
+  if(btn){btn.innerHTML='✅ Saved!';setTimeout(()=>{btn.innerHTML='💾 Save Progress';},2500);}
+  showToast('Progress saved — come back anytime to continue.','success');
+}
+
+function requestExitModule(){
+  if(state.quizSubmitted){location.href='dashboard.html';return;}
+  const hasAnswers=state.quizAnswers&&state.quizAnswers.some(a=>a!==null);
+  if(hasAnswers){document.getElementById('exit-dialog').style.display='flex';}
+  else{location.href='dashboard.html';}
+}
+
+function saveAndExit(){
+  savePartialProgress();closeSaveDialog();
+  showToast('Progress saved!','success');
+  setTimeout(()=>location.href='dashboard.html',800);
+}
+
+function exitWithoutSaving(){
+  clearPartialProgress(state.currentModule.id);closeSaveDialog();
+  location.href='dashboard.html';
+}
+
+function closeSaveDialog(){document.getElementById('exit-dialog').style.display='none';}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════════
+(async function(){
+  // Auth guard
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith('cp_user_'));
+  if(!keys.length){location.href='index.html';return;}
+  state.user=JSON.parse(localStorage.getItem(keys[keys.length-1]));
+  if(!state.user){location.href='index.html';return;}
+
+  await loadUserProgress(state.user.email);
+
+  // Get module ID from URL
+  const params=new URLSearchParams(location.search);
+  const moduleId=parseInt(params.get('id'))||1;
+  const mod=CURRICULUM.find(m=>m.id===moduleId);
+  if(!mod){location.href='dashboard.html';return;}
+
+  // Check if module is locked
+  if(moduleId>1){
+    const prev=state.progress[moduleId-1];
+    if(!prev?.passed){location.href='dashboard.html';return;}
+  }
+
+  renderModule(mod);
+})();
+</script>
+</body>
+</html>

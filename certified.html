@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Certified — Close Solutions Partner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#080e1c;color:#e2e8f0;min-height:100vh;overflow-x:hidden}
+
+/* ── CONFETTI ── */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;top:-10px;animation:confettiFall linear forwards}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* ── TOPBAR ── */
+.topbar{position:relative;z-index:10;background:rgba(14,20,36,.9);border-bottom:1px solid rgba(255,255,255,.06);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px)}
+.top-brand{display:flex;align-items:center;gap:10px}
+.top-logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff}
+.top-logo-text{font-weight:700;font-size:14px;color:#f8fafc}
+.top-logo-text em{font-style:normal;color:#60a5fa}
+.btn-dash{font-size:13px;color:#60a5fa;cursor:pointer;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:8px;padding:7px 14px;font-family:inherit;font-weight:600;transition:all .2s}
+.btn-dash:hover{background:rgba(59,130,246,.2);border-color:rgba(59,130,246,.5)}
+
+/* ── HERO ── */
+.cert-hero{position:relative;z-index:1;padding:60px 24px 0;text-align:center}
+.cert-hero-badge{font-size:80px;margin-bottom:20px;display:block;filter:drop-shadow(0 0 40px rgba(251,191,36,.4));animation:trophyPulse 2s ease-in-out infinite}
+@keyframes trophyPulse{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.05) rotate(2deg)}}
+.cert-hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#6ee7b7;font-size:11px;font-weight:700;padding:5px 14px;border-radius:99px;margin-bottom:18px;letter-spacing:.7px;text-transform:uppercase}
+.cert-hero-title{font-size:42px;font-weight:900;color:#f8fafc;letter-spacing:-.8px;line-height:1.1;margin-bottom:10px}
+.cert-hero-sub{font-size:16px;color:#64748b;line-height:1.6;max-width:480px;margin:0 auto}
+
+/* ── CERTIFICATE CARD ── */
+.cert-card-wrap{position:relative;z-index:1;max-width:640px;margin:44px auto 0;padding:0 24px 80px}
+.cert-card{background:linear-gradient(145deg,#111827,#0f172a);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:44px 40px;text-align:center;position:relative;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5)}
+.cert-card::before{content:'';position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(59,130,246,.3),rgba(139,92,246,.3),rgba(16,185,129,.3));z-index:-1}
+.cert-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(59,130,246,.06) 0%,transparent 65%);pointer-events:none}
+
+.cert-issued{font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.7px;margin-bottom:20px}
+.cert-awarded-to{font-size:13px;color:#64748b;margin-bottom:8px;font-weight:500}
+.cert-name{font-size:34px;font-weight:900;color:#f8fafc;letter-spacing:-.6px;margin-bottom:6px}
+.cert-title{font-size:15px;font-weight:600;color:#60a5fa;margin-bottom:28px;letter-spacing:.2px}
+.cert-divider{width:60px;height:2px;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:99px;margin:0 auto 28px}
+
+.cert-score-block{background:#0a0f1e;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:24px;margin-bottom:28px}
+.cert-score-num{font-size:52px;font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.cert-score-label{font-size:12px;color:#475569;margin-top:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+
+.cert-checklist{text-align:left;margin-bottom:32px}
+.cert-check-title{font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
+.cert-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.cert-check-grid{grid-template-columns:1fr}}
+.cert-check-item{display:flex;align-items:center;gap:9px;font-size:13px;color:#94a3b8;background:#0a0f1e;border:1px solid #1e293b;border-radius:8px;padding:10px 12px;line-height:1.4}
+.cert-check-item .check{color:#10b981;font-size:14px;flex-shrink:0}
+
+.cert-meta{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:32px;padding:16px;background:#0a0f1e;border-radius:10px;border:1px solid #1e293b}
+.cert-meta-item{text-align:center}
+.cert-meta-num{font-size:18px;font-weight:800;color:#f8fafc}
+.cert-meta-lbl{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;font-weight:600}
+.cert-meta-div{width:1px;height:32px;background:#1e293b}
+
+.cert-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-primary{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:0 4px 16px rgba(37,99,235,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.4)}
+.btn-secondary{background:#111827;border:1px solid #334155;color:#94a3b8;border-radius:10px;padding:12px 24px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-secondary:hover{border-color:#64748b;color:#f8fafc}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 20px;font-size:14px;color:#f8fafc;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:#10b981}
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<div class="topbar">
+  <div class="top-brand">
+    <div class="top-logo-mark">C</div>
+    <div class="top-logo-text">Close<em>.com</em></div>
+  </div>
+  <button class="btn-dash" onclick="location.href='dashboard.html'">← Back to Dashboard</button>
+</div>
+
+<div class="cert-hero">
+  <span class="cert-hero-badge">🏆</span>
+  <div class="cert-hero-eyebrow">✓ Certification Complete</div>
+  <h1 class="cert-hero-title">You did it.</h1>
+  <p class="cert-hero-sub">You've completed every module and passed every assessment. You're now a certified Close Solutions Partner.</p>
+</div>
+
+<div class="cert-card-wrap">
+  <div class="cert-card">
+    <div class="cert-issued" id="cert-date">Issued —</div>
+    <div class="cert-awarded-to">This certifies that</div>
+    <div class="cert-name" id="cert-name">—</div>
+    <div class="cert-title">Close.com Certified Solutions Partner</div>
+    <div class="cert-divider"></div>
+
+    <div class="cert-score-block">
+      <div class="cert-score-num" id="cert-score">—%</div>
+      <div class="cert-score-label">Average Assessment Score</div>
+    </div>
+
+    <div class="cert-meta">
+      <div class="cert-meta-item"><div class="cert-meta-num">10</div><div class="cert-meta-lbl">Modules</div></div>
+      <div class="cert-meta-div"></div>
+      <div class="cert-meta-item"><div class="cert-meta-num">50</div><div class="cert-meta-lbl">Questions</div></div>
+      <div class="cert-meta-div"></div>
+      <div class="cert-meta-item"><div class="cert-meta-num" id="meta-avg">—%</div><div class="cert-meta-lbl">Avg Score</div></div>
+    </div>
+
+    <div class="cert-checklist">
+      <div class="cert-check-title">Certified Competencies</div>
+      <div class="cert-check-grid">
+        <div class="cert-check-item"><span class="check">✓</span> Brand Overview & Market Position</div>
+        <div class="cert-check-item"><span class="check">✓</span> Product Knowledge L1, L2 & L3</div>
+        <div class="cert-check-item"><span class="check">✓</span> GTM Readiness & Positioning</div>
+        <div class="cert-check-item"><span class="check">✓</span> ICP Definition & QUALIFY Framework</div>
+        <div class="cert-check-item"><span class="check">✓</span> Demo Execution & Objection Handling</div>
+        <div class="cert-check-item"><span class="check">✓</span> Client Success & Implementation</div>
+        <div class="cert-check-item"><span class="check">✓</span> Chloe AI & Advanced Builds</div>
+        <div class="cert-check-item"><span class="check">✓</span> Retention, Expansion & Scale</div>
+      </div>
+    </div>
+
+    <div class="cert-actions">
+      <button class="btn-primary" onclick="window.print()">🖨️ Print Certificate</button>
+      <button class="btn-secondary" onclick="location.href='dashboard.html'">← Return to Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function showToast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+
+function launchConfetti(){
+  const wrap=document.getElementById('confetti');
+  const colors=['#3b82f6','#7c3aed','#10b981','#f59e0b','#ec4899','#60a5fa','#a78bfa','#34d399'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*2}s`;
+    wrap.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+}
+
+(function(){
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith('cp_user_'));
+  if(!keys.length){location.href='index.html';return;}
+  const user=JSON.parse(localStorage.getItem(keys[keys.length-1]));
+  if(!user){location.href='index.html';return;}
+
+  document.getElementById('cert-name').textContent=user.firstName+' '+user.lastName;
+
+  const progressKey='cp_progress_'+user.email;
+  let progress={};
+  try{progress=JSON.parse(localStorage.getItem(progressKey)||'{}');}catch(e){}
+
+  const passedModules=Object.values(progress).filter(m=>m.passed);
+  const avg=passedModules.length?Math.round(passedModules.reduce((a,m)=>a+m.score,0)/passedModules.length):0;
+  document.getElementById('cert-score').textContent=avg+'%';
+  document.getElementById('meta-avg').textContent=avg+'%';
+
+  const now=new Date();
+  document.getElementById('cert-date').textContent='Issued '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  // Launch confetti after a short delay
+  setTimeout(launchConfetti, 400);
+  setTimeout(launchConfetti, 1200);
+  setTimeout(()=>showToast('Congratulations, '+user.firstName+'! 🎉','success'), 800);
+})();
+</script>
+</body>
+</html>
