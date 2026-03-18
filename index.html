@@ -310,8 +310,17 @@ const FIREBASE_CONFIG = {
 // ADMIN PASSWORD (change this)
 const ADMIN_PASSWORD = "close2026admin";
 
+// Detect whether Firebase has been configured with real credentials
+const FIREBASE_READY = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY" && FIREBASE_CONFIG.projectId !== "YOUR_PROJECT_ID";
+
 firebase.initializeApp(FIREBASE_CONFIG);
 const db = firebase.firestore();
+
+// Wrap any Firebase promise with a hard timeout so a bad/missing config never hangs the UI
+function withTimeout(promise, ms = 4000){
+  const timer = new Promise((_,reject)=>setTimeout(()=>reject(new Error('Firebase timeout')), ms));
+  return Promise.race([promise, timer]);
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CURRICULUM DATA
@@ -547,14 +556,16 @@ let state = {
 function userDocId(email){ return email.toLowerCase().replace(/[^a-z0-9]/g,'_'); }
 
 async function loadUserProgress(email){
-  try {
-    const doc = await db.collection('partners').doc(userDocId(email)).get();
-    if(doc.exists){
-      const data = doc.data();
-      state.progress = data.moduleProgress || {};
-      return data;
-    }
-  } catch(e){ console.warn('Firebase read failed, using local storage', e); }
+  if(FIREBASE_READY){
+    try {
+      const doc = await withTimeout(db.collection('partners').doc(userDocId(email)).get());
+      if(doc.exists){
+        const data = doc.data();
+        state.progress = data.moduleProgress || {};
+        return data;
+      }
+    } catch(e){ console.warn('Firebase read failed, falling back to localStorage:', e.message); }
+  }
   // fallback: localStorage
   const local = localStorage.getItem('cp_progress_'+email);
   if(local) state.progress = JSON.parse(local);
@@ -582,9 +593,11 @@ async function saveProgress(email, moduleId, score, passed){
     lastActivity: new Date().toISOString()
   };
 
-  try {
-    await db.collection('partners').doc(userDocId(email)).set(payload, {merge:true});
-  } catch(e){ console.warn('Firebase write failed, saving locally', e); }
+  if(FIREBASE_READY){
+    try {
+      await withTimeout(db.collection('partners').doc(userDocId(email)).set(payload, {merge:true}));
+    } catch(e){ console.warn('Firebase write failed, saving locally:', e.message); }
+  }
   localStorage.setItem('cp_progress_'+email, JSON.stringify(state.progress));
   localStorage.setItem('cp_user_'+email, JSON.stringify({firstName:state.user.firstName,lastName:state.user.lastName,email:state.user.email}));
 }
@@ -605,17 +618,19 @@ async function handleRegister(){
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
   state.user = { firstName:first, lastName:last, email };
   await loadUserProgress(email);
-  // upsert user record
-  try {
-    await db.collection('partners').doc(userDocId(email)).set({
-      firstName:first, lastName:last, email,
-      registeredAt: firebase.firestore.FieldValue.serverTimestamp(),
-      moduleProgress: state.progress,
-      modulesCompleted: Object.values(state.progress).filter(m=>m.passed).length,
-      certified: Object.values(state.progress).filter(m=>m.passed).length>=10,
-      lastActivity: new Date().toISOString()
-    },{merge:true});
-  } catch(e){ console.warn('Firebase registration error',e); }
+  // upsert user record (only if Firebase is configured)
+  if(FIREBASE_READY){
+    try {
+      await withTimeout(db.collection('partners').doc(userDocId(email)).set({
+        firstName:first, lastName:last, email,
+        registeredAt: firebase.firestore.FieldValue.serverTimestamp(),
+        moduleProgress: state.progress,
+        modulesCompleted: Object.values(state.progress).filter(m=>m.passed).length,
+        certified: Object.values(state.progress).filter(m=>m.passed).length>=10,
+        lastActivity: new Date().toISOString()
+      },{merge:true}));
+    } catch(e){ console.warn('Firebase registration error (localStorage fallback active):', e.message); }
+  }
   localStorage.setItem('cp_user_'+email, JSON.stringify(state.user));
   showDashboard();
   btn.disabled=false; btn.innerHTML='Start Certification →';

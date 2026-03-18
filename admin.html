@@ -222,8 +222,15 @@ const ADMIN_PASSWORD = "close2026admin";
 
 const MODULE_NAMES = ["Brand Overview","Product L1","GTM Readiness","Product L2","ICP & Sales","Demos","Product L3","Client Success","Retention","Scale"];
 
+const FIREBASE_READY = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY" && FIREBASE_CONFIG.projectId !== "YOUR_PROJECT_ID";
+
 firebase.initializeApp(FIREBASE_CONFIG);
 const db = firebase.firestore();
+
+function withTimeout(promise, ms = 6000){
+  const timer = new Promise((_,reject)=>setTimeout(()=>reject(new Error('Firebase timeout')), ms));
+  return Promise.race([promise, timer]);
+}
 
 // ── STATE ──
 let allPartners = [];
@@ -255,8 +262,13 @@ function adminLogout(){
 async function loadPartners(){
   const tbody = document.getElementById('partners-tbody');
   tbody.innerHTML = `<tr><td colspan="18"><div class="empty-state"><div class="spinner"></div><p style="margin-top:12px">Fetching partners…</p></div></td></tr>`;
+  if(!FIREBASE_READY){
+    tbody.innerHTML = `<tr><td colspan="18"><div class="empty-state"><div class="empty-icon">⚙️</div><p><strong>Firebase not configured yet.</strong><br/>Add your Firebase credentials to both HTML files to see partner data.</p></div></td></tr>`;
+    document.getElementById('last-refresh').textContent = 'Firebase not connected';
+    return;
+  }
   try {
-    const snap = await db.collection('partners').get();
+    const snap = await withTimeout(db.collection('partners').get(), 8000);
     allPartners = snap.docs.map(d=>{
       const data = d.data();
       const prog = data.moduleProgress || {};
