@@ -423,55 +423,6 @@ const CURRICULUM = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// APP STATE
-// ═══════════════════════════════════════════════════════════════════════════════
-let state = {
-  user: null,       // { firstName, lastName, email }
-  progress: {},     // { moduleId: { score, passed, attempts } }
-  currentModule: null,
-  quizAnswers: [],
-  quizSubmitted: false
-};
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// FIREBASE HELPERS
-// ═══════════════════════════════════════════════════════════════════════════════
-function userDocId(email){ return email.toLowerCase().replace(/[^a-z0-9]/g,'_'); }
-
-async function loadUserProgress(email){
-  if(FIREBASE_READY){
-    try {
-      const doc = await withTimeout(db.collection('partners').doc(userDocId(email)).get());
-      if(doc.exists){
-        const data = doc.data();
-        state.progress = data.moduleProgress || {};
-        return data;
-      }
-    } catch(e){ console.warn('Firebase read failed, falling back to localStorage:', e.message); }
-  }
-  // fallback: localStorage
-  const local = localStorage.getItem('cp_progress_'+email);
-  if(local) state.progress = JSON.parse(local);
-  return null;
-}
-
-async function saveProgress(email, moduleId, score, passed){
-  const entry = { score, passed, attempts: ((state.progress[moduleId]||{}).attempts||0)+1, completedAt: new Date().toISOString() };
-  // keep best score
-  if(state.progress[moduleId] && state.progress[moduleId].score >= score){ entry.score = state.progress[moduleId].score; entry.passed = state.progress[moduleId].passed; }
-  state.progress[moduleId] = entry;
-
-  const completedCount = Object.values(state.progress).filter(m=>m.passed).length;
-  const avgScore = completedCount ? Math.round(Object.values(state.progress).filter(m=>m.passed).reduce((a,m)=>a+m.score,0)/completedCount) : 0;
-  const certified = completedCount >= 10;
-
-  const payload = {
-    firstName: state.user.firstName,
-    lastName: state.user.lastName,
-    email: state.user.email,
-    moduleProgress: state.progress,
-
-// ═══════════════════════════════════════════════════════════════════════════════
 // STATE & HELPERS
 // ═══════════════════════════════════════════════════════════════════════════════
 let state={user:null,progress:{},currentModule:null,quizAnswers:[],quizSubmitted:false};
