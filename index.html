@@ -172,6 +172,28 @@ nav{background:#1e293b;border-bottom:1px solid #334155;padding:0 24px;height:60p
 .cert-check-item span{color:#10b981}
 .btn-cert{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:10px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
 
+/* ── MODULE ACTION BAR ── */
+.module-action-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.btn-back-dash{background:rgba(15,23,42,.5);border:1px solid #475569;color:#94a3b8;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .2s}
+.btn-back-dash:hover{border-color:#94a3b8;color:#f8fafc}
+.btn-save-prog{background:rgba(15,23,42,.5);border:1px solid #3b82f6;color:#60a5fa;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .2s}
+.btn-save-prog:hover{background:#1d3461}
+.btn-save-prog:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── SAVE/EXIT DIALOG ── */
+.dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px}
+.dialog-box{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:36px 32px;max-width:400px;width:100%;text-align:center}
+.dialog-icon{font-size:40px;margin-bottom:12px}
+.dialog-box h3{font-size:18px;font-weight:700;color:#f8fafc;margin-bottom:8px}
+.dialog-box p{font-size:14px;color:#64748b;line-height:1.6;margin-bottom:24px}
+.dialog-btns{display:flex;flex-direction:column;gap:10px}
+.btn-dialog-save{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.btn-dialog-save:hover{opacity:.9}
+.btn-dialog-exit{background:#1e293b;border:1px solid #334155;color:#94a3b8;border-radius:8px;padding:11px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-dialog-exit:hover{border-color:#64748b;color:#f8fafc}
+.btn-dialog-stay{background:none;border:none;color:#475569;font-size:13px;cursor:pointer;font-family:inherit;padding:6px;margin-top:2px;transition:color .2s}
+.btn-dialog-stay:hover{color:#94a3b8}
+
 /* ── MISC ── */
 .hidden{display:none!important}
 .spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
@@ -237,7 +259,10 @@ nav{background:#1e293b;border-bottom:1px solid #334155;padding:0 24px;height:60p
 <!-- ═══════════════════════════════ MODULE VIEW ═══════════════════════════════ -->
 <div id="screen-module" class="screen">
   <div class="module-hero">
-    <div class="module-breadcrumb" onclick="showDashboard()">← Back to Dashboard</div>
+    <div class="module-action-bar">
+      <button class="btn-back-dash" onclick="requestExitModule()">← Dashboard</button>
+      <button class="btn-save-prog" id="btn-save" onclick="saveProgressAndStay()">💾 Save Progress</button>
+    </div>
     <h1 id="mod-title"></h1>
     <p class="module-hero-sub" id="mod-subtitle"></p>
     <div class="module-hero-meta">
@@ -289,6 +314,20 @@ nav{background:#1e293b;border-bottom:1px solid #334155;padding:0 24px;height:60p
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- SAVE / EXIT DIALOG -->
+<div class="dialog-overlay" id="exit-dialog" style="display:none">
+  <div class="dialog-box">
+    <div class="dialog-icon">💾</div>
+    <h3>Save before leaving?</h3>
+    <p>Your quiz answers will be remembered so you can continue right where you left off.</p>
+    <div class="dialog-btns">
+      <button class="btn-dialog-save" onclick="saveAndExit()">Save &amp; Exit</button>
+      <button class="btn-dialog-exit" onclick="exitWithoutSaving()">Exit Without Saving</button>
+      <button class="btn-dialog-stay" onclick="closeSaveDialog()">Keep Studying</button>
+    </div>
+  </div>
+</div>
 
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -702,7 +741,6 @@ function renderDashboard(){
 function showModule(moduleId){
   const mod = CURRICULUM.find(m=>m.id===moduleId);
   state.currentModule = mod;
-  state.quizAnswers = new Array(mod.quiz.length).fill(null);
   state.quizSubmitted = false;
 
   document.getElementById('mod-title').innerHTML = `Module ${mod.id}: <span>${mod.title}</span>`;
@@ -723,7 +761,21 @@ function showModule(moduleId){
     </div>
   `).join('');
 
+  // Restore partial quiz answers if they exist, otherwise start fresh
+  const partial = getPartialProgress(mod.id);
+  state.quizAnswers = partial ? [...partial] : new Array(mod.quiz.length).fill(null);
+
   renderQuiz(mod);
+
+  // Re-apply visual state for any previously answered questions
+  if(partial && partial.some(a => a !== null)){
+    restorePartialAnswers(mod);
+  }
+
+  // Show save button (hide if quiz was already fully passed)
+  const saveBtn = document.getElementById('btn-save');
+  if(saveBtn) saveBtn.style.display = prog?.passed ? 'none' : '';
+
   showScreen('screen-module');
   window.scrollTo(0,0);
 }
@@ -823,6 +875,10 @@ async function submitQuiz(){
   const passed  = score >= 80;
 
   await saveProgress(state.user.email, mod.id, score, passed);
+  state.quizSubmitted = true;
+  clearPartialProgress(mod.id);
+  const saveBtn = document.getElementById('btn-save');
+  if(saveBtn) saveBtn.style.display = 'none';
   updateNavProgress();
 
   const resEl = document.getElementById('quiz-result-panel');
@@ -852,9 +908,112 @@ async function submitQuiz(){
 
 function retryQuiz(){
   const mod = state.currentModule;
+  clearPartialProgress(mod.id);
   state.quizAnswers = new Array(mod.quiz.length).fill(null);
+  state.quizSubmitted = false;
   renderQuiz(mod);
+  const saveBtn = document.getElementById('btn-save');
+  if(saveBtn) saveBtn.style.display = '';
   document.getElementById('quiz-section').scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SAVE / EXIT FLOW
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function partialKey(moduleId){
+  return `partial_${(state.user?.email||'guest')}_${moduleId}`;
+}
+
+function getPartialProgress(moduleId){
+  try { return JSON.parse(localStorage.getItem(partialKey(moduleId))); } catch(e){ return null; }
+}
+
+function savePartialProgress(){
+  const mod = state.currentModule;
+  if(!mod) return;
+  const hasAnswers = state.quizAnswers && state.quizAnswers.some(a => a !== null);
+  if(hasAnswers){
+    localStorage.setItem(partialKey(mod.id), JSON.stringify(state.quizAnswers));
+  }
+}
+
+function clearPartialProgress(moduleId){
+  localStorage.removeItem(partialKey(moduleId));
+}
+
+function restorePartialAnswers(mod){
+  state.quizAnswers.forEach((ans, qIdx) => {
+    if(ans === null) return;
+    const q = mod.quiz[qIdx];
+    const correct = ans === q.correct;
+
+    // Re-style option buttons
+    q.opts.forEach((_,oi) => {
+      const btn = document.getElementById(`opt-${qIdx}-${oi}`);
+      if(!btn) return;
+      btn.disabled = true;
+      if(oi === q.correct) btn.classList.add('selected-correct');
+      else if(oi === ans && !correct) btn.classList.add('selected-wrong');
+    });
+
+    // Show explanation
+    const expEl = document.getElementById('exp-'+qIdx);
+    if(expEl) expEl.classList.add('show');
+
+    // Update progress dot
+    const dotEl = document.getElementById('dot-'+qIdx);
+    if(dotEl) dotEl.className = 'quiz-dot '+(correct ? 'answered-correct' : 'answered-wrong');
+
+    // Enable next button
+    const nextBtn = document.getElementById('next-btn-'+qIdx);
+    if(nextBtn) nextBtn.disabled = false;
+  });
+
+  // Jump to first unanswered question, or last question if all answered
+  const firstUnanswered = state.quizAnswers.findIndex(a => a === null);
+  const targetQ = firstUnanswered >= 0 ? firstUnanswered : mod.quiz.length - 1;
+  if(targetQ > 0) showQuestion(targetQ);
+
+  showToast('Welcome back! Picking up where you left off. 👋', '');
+}
+
+function saveProgressAndStay(){
+  if(state.quizSubmitted) return; // nothing to save after quiz is done
+  savePartialProgress();
+  const btn = document.getElementById('btn-save');
+  if(btn){ btn.innerHTML = '✅ Saved!'; setTimeout(()=>{ btn.innerHTML = '💾 Save Progress'; }, 2500); }
+  showToast('Progress saved — come back anytime to continue.', 'success');
+}
+
+function requestExitModule(){
+  if(state.quizSubmitted){
+    showDashboard();
+    return;
+  }
+  const hasAnswers = state.quizAnswers && state.quizAnswers.some(a => a !== null);
+  if(hasAnswers){
+    document.getElementById('exit-dialog').style.display = 'flex';
+  } else {
+    showDashboard();
+  }
+}
+
+function saveAndExit(){
+  savePartialProgress();
+  closeSaveDialog();
+  showDashboard();
+  showToast('Progress saved — continue where you left off next time.', 'success');
+}
+
+function exitWithoutSaving(){
+  clearPartialProgress(state.currentModule.id);
+  closeSaveDialog();
+  showDashboard();
+}
+
+function closeSaveDialog(){
+  document.getElementById('exit-dialog').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
