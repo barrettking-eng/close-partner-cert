@@ -208,6 +208,21 @@ const FIREBASE_READY=FIREBASE_CONFIG.apiKey!=="YOUR_API_KEY";
 firebase.initializeApp(FIREBASE_CONFIG);
 const db=firebase.firestore();
 function withTimeout(p,ms=5000){return Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);}
+
+// ── SLACK NOTIFICATIONS ──────────────────────────────────────────────────────
+const SLACK_BOT_TOKEN='xoxb-YOUR-TOKEN-HERE'; // replace with your bot token
+const SLACK_CHANNELS={started:'C0AMJKPTCJ2',certified:'C0AMEA2CZM1'};
+function notifySlack(type,user){
+  if(!SLACK_BOT_TOKEN.startsWith('xoxb-'))return;
+  const text=type==='certified'
+    ?`🎉 *New Certified Partner!*\n*Name:* ${user.firstName} ${user.lastName}\n*Email:* ${user.email}`
+    :`🚀 *New Certification Started*\n*Name:* ${user.firstName} ${user.lastName}\n*Email:* ${user.email}`;
+  fetch('https://slack.com/api/chat.postMessage',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+SLACK_BOT_TOKEN},
+    body:JSON.stringify({channel:SLACK_CHANNELS[type],text,unfurl_links:false})
+  }).catch(()=>{});
+}
 const CURRICULUM = [
 {
   id:1, title:"Brand Overview", subtitle:"Who Close is and why partners win",
@@ -444,6 +459,7 @@ async function loadUserProgress(email){
 }
 
 async function saveProgress(email,moduleId,score,passed){
+  const prevCount=Object.values(state.progress).filter(m=>m.passed).length;
   const existing=state.progress[moduleId];
   const entry={score,passed,attempts:((existing||{}).attempts||0)+1,completedAt:new Date().toISOString()};
   if(existing&&existing.score>=score){entry.score=existing.score;entry.passed=existing.passed;}
@@ -453,6 +469,11 @@ async function saveProgress(email,moduleId,score,passed){
   const payload={firstName:state.user.firstName,lastName:state.user.lastName,email,moduleProgress:state.progress,modulesCompleted:completedCount,avgScore,certified:completedCount>=10,lastActivity:new Date().toISOString()};
   if(FIREBASE_READY){try{await withTimeout(db.collection('partners').doc(userDocId(email)).set(payload,{merge:true}));}catch(e){console.warn('Firebase write failed:',e.message);}}
   localStorage.setItem('cp_progress_'+email,JSON.stringify(state.progress));
+  // Notify Slack when all 10 modules are first completed
+  if(completedCount>=10&&prevCount<10){
+    const k='cp_notified_cert_'+email;
+    if(!localStorage.getItem(k)){notifySlack('certified',state.user);localStorage.setItem(k,'1');}
+  }
 }
 
 function showToast(msg,type=''){
@@ -682,6 +703,12 @@ function closeSaveDialog(){document.getElementById('exit-dialog').style.display=
   if(moduleId>1){
     const prev=state.progress[moduleId-1];
     if(!prev?.passed){location.href='dashboard.html';return;}
+  }
+
+  // Notify Slack on first-ever Module 1 open
+  if(moduleId===1&&!state.progress[1]){
+    const k='cp_notified_start_'+state.user.email;
+    if(!localStorage.getItem(k)){notifySlack('started',state.user);localStorage.setItem(k,'1');}
   }
 
   renderModule(mod);
