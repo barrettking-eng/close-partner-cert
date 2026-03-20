@@ -26,8 +26,8 @@ body{font-family:'Inter',sans-serif;background:#0f172a;color:#e2e8f0;min-height:
 /* ── DASHBOARD ── */
 #screen-admin{display:none}
 nav{background:#1e293b;border-bottom:1px solid #334155;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:#f8fafc}
-.nav-logo span{color:#3b82f6}
+.nav-logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;color:#f8fafc}
+.nav-logo img{height:26px;width:auto;display:block}
 .nav-logo em{font-style:normal;background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-left:4px;letter-spacing:.5px}
 .nav-actions{display:flex;align-items:center;gap:12px}
 .nav-btn{background:#334155;border:none;color:#cbd5e1;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .2s}
@@ -133,7 +133,7 @@ tr:hover td{background:#1e3a5f20}
 <!-- ═══════ ADMIN DASHBOARD ═══════ -->
 <div id="screen-admin">
   <nav>
-    <div class="nav-logo">Close<span>.com</span> Partner Certification <em>ADMIN</em></div>
+    <div class="nav-logo"><img src="close-logo.png" alt="Close.com"/> Partner Certification <em>ADMIN</em></div>
     <div class="nav-actions">
       <div class="refresh-time" id="last-refresh">—</div>
       <button class="nav-btn" onclick="loadPartners()">⟳ Refresh</button>

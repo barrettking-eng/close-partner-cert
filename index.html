@@ -15,10 +15,8 @@ body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#e2e8f0;min-height:
 .glow-1{position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.16) 0%,transparent 70%);top:-120px;left:-120px;pointer-events:none}
 .glow-2{position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.11) 0%,transparent 70%);bottom:0;right:-80px;pointer-events:none}
 .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.045) 1px,transparent 1px);background-size:52px 52px;pointer-events:none}
-.left-logo{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
-.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.4)}
-.logo-text{font-weight:700;font-size:16px;color:#f8fafc}
-.logo-text em{font-style:normal;color:#60a5fa}
+.left-logo{display:flex;align-items:center;position:relative;z-index:1}
+.left-logo img{height:34px;width:auto;display:block}
 .left-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:44px 0;position:relative;z-index:1}
 .eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#93c5fd;font-size:11px;font-weight:700;padding:5px 14px;border-radius:99px;margin-bottom:22px;letter-spacing:.7px;text-transform:uppercase;width:fit-content}
 .headline{font-size:42px;font-weight:900;color:#f8fafc;line-height:1.12;letter-spacing:-.9px;margin-bottom:18px}
@@ -41,11 +39,9 @@ body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#e2e8f0;min-height:
 .panel-right{background:#0f172a;display:flex;align-items:center;justify-content:center;padding:48px 44px;position:relative}
 .panel-right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(59,130,246,.04) 0%,transparent 60%);pointer-events:none}
 .form-wrap{width:100%;max-width:400px;position:relative;z-index:1}
-.mobile-logo{display:none;align-items:center;gap:10px;margin-bottom:36px}
+.mobile-logo{display:none;align-items:center;margin-bottom:36px}
 @media(max-width:860px){.mobile-logo{display:flex}}
-.mobile-logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff}
-.mobile-logo-text{font-weight:700;font-size:15px;color:#f8fafc}
-.mobile-logo-text em{font-style:normal;color:#60a5fa}
+.mobile-logo img{height:28px;width:auto;display:block}
 .form-title{font-size:27px;font-weight:800;color:#f8fafc;letter-spacing:-.5px;margin-bottom:7px}
 .form-caption{font-size:14px;color:#64748b;line-height:1.55;margin-bottom:30px}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
@@ -78,8 +74,7 @@ body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#e2e8f0;min-height:
   <div class="panel-left">
     <div class="glow-1"></div><div class="glow-2"></div><div class="grid-bg"></div>
     <div class="left-logo">
-      <div class="logo-mark">C</div>
-      <div class="logo-text">Close<em>.com</em></div>
+      <img src="close-logo.png" alt="Close.com"/>
     </div>
     <div class="left-body">
       <div class="eyebrow">🎓 Solutions Partner Certification</div>
@@ -101,8 +96,7 @@ body{font-family:'Inter',sans-serif;background:#0a0f1e;color:#e2e8f0;min-height:
   <div class="panel-right">
     <div class="form-wrap">
       <div class="mobile-logo">
-        <div class="mobile-logo-mark">C</div>
-        <div class="mobile-logo-text">Close<em>.com</em> Partner Cert</div>
+        <img src="close-logo.png" alt="Close.com"/>
       </div>
       <div class="form-title">Create your profile</div>
       <p class="form-caption">One profile, all 10 modules tracked — pick up exactly where you left off, any time.</p>
