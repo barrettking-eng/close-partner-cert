@@ -179,6 +179,7 @@ tr:hover td{background:#1e3a5f20}
       <table id="partners-table">
         <thead>
           <tr>
+            <th></th>
             <th onclick="sortBy('name')">Partner <span class="sort-arrow" id="arrow-name">↕</span></th>
             <th onclick="sortBy('email')">Email <span class="sort-arrow" id="arrow-email">↕</span></th>
             <th onclick="sortBy('completed')">Modules Done <span class="sort-arrow" id="arrow-completed">↕</span></th>
@@ -191,7 +192,7 @@ tr:hover td{background:#1e3a5f20}
           </tr>
         </thead>
         <tbody id="partners-tbody">
-          <tr><td colspan="18"><div class="empty-state"><div class="spinner"></div><p style="margin-top:12px">Loading partners…</p></div></td></tr>
+          <tr><td colspan="19"><div class="empty-state"><div class="spinner"></div><p style="margin-top:12px">Loading partners…</p></div></td></tr>
         </tbody>
       </table>
     </div>
@@ -267,9 +268,9 @@ function adminLogout(){
 // ── LOAD DATA ──
 async function loadPartners(){
   const tbody = document.getElementById('partners-tbody');
-  tbody.innerHTML = `<tr><td colspan="18"><div class="empty-state"><div class="spinner"></div><p style="margin-top:12px">Fetching partners…</p></div></td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="19"><div class="empty-state"><div class="spinner"></div><p style="margin-top:12px">Fetching partners…</p></div></td></tr>`;
   if(!FIREBASE_READY){
-    tbody.innerHTML = `<tr><td colspan="18"><div class="empty-state"><div class="empty-icon">⚙️</div><p><strong>Firebase not configured yet.</strong><br/>Add your Firebase credentials to both HTML files to see partner data.</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="19"><div class="empty-state"><div class="empty-icon">⚙️</div><p><strong>Firebase not configured yet.</strong><br/>Add your Firebase credentials to both HTML files to see partner data.</p></div></td></tr>`;
     document.getElementById('last-refresh').textContent = 'Firebase not connected';
     return;
   }
@@ -298,7 +299,7 @@ async function loadPartners(){
     applyFilters();
   } catch(e){
     console.error(e);
-    tbody.innerHTML = `<tr><td colspan="18"><div class="empty-state"><div class="empty-icon">⚠️</div><p>Could not connect to Firebase. Check your config.</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="19"><div class="empty-state"><div class="empty-icon">⚠️</div><p>Could not connect to Firebase. Check your config.</p></div></td></tr>`;
   }
 }
 
@@ -375,7 +376,7 @@ function renderTable(){
   document.getElementById('result-count').textContent = `Showing ${filtered.length} of ${allPartners.length} partners`;
 
   if(!filtered.length){
-    tbody.innerHTML = `<tr><td colspan="18"><div class="empty-state"><div class="empty-icon">🔍</div><p>No partners match your filter.</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="19"><div class="empty-state"><div class="empty-icon">🔍</div><p>No partners match your filter.</p></div></td></tr>`;
     return;
   }
 
@@ -396,6 +397,7 @@ function renderTable(){
     const lastAct = p.lastActivity ? new Date(p.lastActivity).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '—';
 
     return `<tr>
+      <td><button class="btn-delete" onclick="deletePartner('${p.id}',this)">🗑</button></td>
       <td>
         <div class="partner-name">${esc(p.firstName)} ${esc(p.lastName)}</div>
       </td>
@@ -405,10 +407,7 @@ function renderTable(){
       ${modCells}
       <td>${statusBadge}</td>
       <td style="font-size:12px;color:#64748b">${lastAct}</td>
-      <td>
-        <button class="btn-detail" onclick="openDetail('${p.id}')">View</button>
-        <button class="btn-delete" onclick="deletePartner('${p.id}',this)">🗑</button>
-      </td>
+      <td><button class="btn-detail" onclick="openDetail('${p.id}')">View</button></td>
     </tr>`;
   }).join('');
 }
