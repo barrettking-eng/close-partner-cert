@@ -210,17 +210,21 @@ const db=firebase.firestore();
 function withTimeout(p,ms=5000){return Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);}
 
 // ── SLACK NOTIFICATIONS ──────────────────────────────────────────────────────
-const SLACK_BOT_TOKEN='xoxb-YOUR-TOKEN-HERE'; // replace with your bot token
-const SLACK_CHANNELS={started:'C0AMJKPTCJ2',certified:'C0AMEA2CZM1'};
+const SLACK_WEBHOOKS={
+  started:'WEBHOOK_STARTED',    // paste https://hooks.slack.com/... for #new-partner-cert-started
+  certified:'WEBHOOK_CERTIFIED' // paste https://hooks.slack.com/... for #new-partner-certified
+};
 function notifySlack(type,user){
-  if(!SLACK_BOT_TOKEN.startsWith('xoxb-'))return;
+  const hook=SLACK_WEBHOOKS[type];
+  if(!hook||hook.startsWith('WEBHOOK'))return;
   const text=type==='certified'
     ?`🎉 *New Certified Partner!*\n*Name:* ${user.firstName} ${user.lastName}\n*Email:* ${user.email}`
     :`🚀 *New Certification Started*\n*Name:* ${user.firstName} ${user.lastName}\n*Email:* ${user.email}`;
-  fetch('https://slack.com/api/chat.postMessage',{
+  fetch(hook,{
     method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+SLACK_BOT_TOKEN},
-    body:JSON.stringify({channel:SLACK_CHANNELS[type],text,unfurl_links:false})
+    mode:'no-cors',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:'payload='+encodeURIComponent(JSON.stringify({text}))
   }).catch(()=>{});
 }
 const CURRICULUM = [
