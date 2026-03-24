@@ -225,7 +225,7 @@ function notifySlack(type,user){
 const CURRICULUM = [
 {
   id:1, title:"Brand Overview", subtitle:"Who Close is and why partners win",
-  duration:"30–40 min", icon:"🏢",
+  duration:"15–20 min", icon:"🏢",
   objective:"Before you sell Close, you have to believe in Close. This module builds the foundational understanding of Close's market position, brand identity, and the partner value proposition.",
   objectives:[
     "Articulate Close's company mission, brand voice, and market category",
@@ -250,7 +250,7 @@ const CURRICULUM = [
 },
 {
   id:2, title:"Product Knowledge L1", subtitle:"What Close does. How it works.",
-  duration:"35–45 min", icon:"⚙️",
+  duration:"18–22 min", icon:"⚙️",
   objective:"You cannot sell what you don't understand, and you cannot implement what you can't explain. This module gives you the product foundation — Close's architecture, core capabilities, and the value drivers that make clients switch.",
   objectives:[
     "Explain the five core pillars of the Close platform","Describe the user experience from a sales rep's daily perspective","Articulate why the unified communication inbox is Close's #1 value driver","Map Close plan options to client use cases"
@@ -258,7 +258,7 @@ const CURRICULUM = [
   sections:[
     {heading:"The Five Core Pillars", html:`<table class="content-table"><thead><tr><th>Pillar</th><th>What It Does</th></tr></thead><tbody><tr><td><strong>1. CRM</strong></td><td>Lead and contact management, multiple pipelines, custom fields, activity tracking, task lists, advanced filtering</td></tr><tr><td><strong>2. Communications</strong></td><td>Built-in calling (Power Dialer, Predictive Dialer), email (sequences, templates), SMS — all in one unified inbox</td></tr><tr><td><strong>3. Automation</strong></td><td>Workflows that automate follow-up tasks, lead routing, status changes, and sequence enrollment based on triggers</td></tr><tr><td><strong>4. Sales AI (Chloe)</strong></td><td>AI-generated call summaries, next-step suggestions, email drafts, and coaching insights</td></tr><tr><td><strong>5. Reporting</strong></td><td>Activity reports, pipeline reports, forecasting, leaderboards, and custom views for managers</td></tr></tbody></table>`},
     {heading:"A Day in the Life of a Close User", html:`<p>Rep opens Close. Their inbox shows all calls, emails, and SMS in one unified feed. <strong>No context-switching.</strong></p><p>Power Dialer is loaded. Rep dials through a curated list. After each call, Close auto-logs with an AI summary.</p><p>Workflow triggers fire. A missed call creates a follow-up task. An email reply moves a lead to the next stage.</p><p>End-of-day: Manager pulls the activity dashboard. 47 calls, 12 emails, 8 connected conversations — all logged without manual entry.</p>`},
-    {heading:"Plan Structure", html:`<table class="content-table"><thead><tr><th>Plan</th><th>Price & Target</th></tr></thead><tbody><tr><td><strong>Solo</strong></td><td>From $9/mo | Individual reps, solo operators</td></tr><tr><td><strong>Essentials</strong></td><td>$49/mo/seat ($35 annual) | Small teams, CRM + communication basics, unlimited contacts</td></tr><tr><td><strong>Growth</strong></td><td>$109/mo/seat ($99 annual) | Most popular; adds workflows, sequences, advanced reporting</td></tr><tr><td><strong>Business</strong></td><td>Contact Close | Enterprise features, custom roles, advanced permissions, dedicated support</td></tr></tbody></table><div class="callout">Growth is your most common close. Most SMB teams (5–25 reps) land here because of automation and workflow features. Position Essentials for early-stage or budget-constrained evaluations.</div>`},
+    {heading:"Plan Structure", html:`<table class="content-table"><thead><tr><th>Plan</th><th>Price & Target</th></tr></thead><tbody><tr><td><strong>Solo</strong></td><td>From $9/mo | Individual reps, solo operators</td></tr><tr><td><strong>Essentials</strong></td><td>$49/mo/seat ($35 annual) | Small teams, CRM + communication basics, unlimited contacts</td></tr><tr><td><strong>Growth</strong></td><td>$109/mo/seat ($99 annual) | Most popular; adds workflows, sequences, advanced reporting</td></tr><tr><td><strong>Scale</strong></td><td>Contact Close | Enterprise features, custom roles, advanced permissions, dedicated support</td></tr></tbody></table><div class="callout">Growth is your most common close. Most SMB teams (5–25 reps) land here because of automation and workflow features. Position Essentials for early-stage or budget-constrained evaluations.</div>`},
     {heading:"Key Messages", html:`<div class="callout blue">Close eliminates the single biggest time tax on sales reps: toggling between tools. Everything lives in one screen.</div><div class="callout blue">The Power Dialer alone can triple a rep's call volume in the same number of hours.</div><div class="callout blue">No contracts, no implementation fees, no hidden costs. Material advantage over Salesforce and enterprise CRM.</div>`}
   ],
   quiz:[
@@ -271,7 +271,7 @@ const CURRICULUM = [
 },
 {
   id:3, title:"GTM Preparedness", subtitle:"Messaging that converts. Pricing that sticks.",
-  duration:"35–45 min", icon:"🎯",
+  duration:"18–22 min", icon:"🎯",
   objective:"Product knowledge gets you in the room. GTM readiness gets you the deal. This module gives you the positioning frameworks, persona-specific messaging, and pricing conversation guides that turn a demo into a signed contract.",
   objectives:[
     "Use the Close value framework to build prospect-specific positioning","Identify the three primary buyer personas and tailor your message to each","Navigate pricing conversations without discounting reflexively","Handle the most common competitive objections"
@@ -293,7 +293,7 @@ const CURRICULUM = [
 },
 {
   id:4, title:"Product Knowledge L2", subtitle:"Customization, API & Integration Ecosystem",
-  duration:"30–40 min", icon:"🔧",
+  duration:"15–20 min", icon:"🔧",
   objective:"One-size-fits-all is a myth in CRM sales. This module arms you with the knowledge to show prospects that Close can flex to their needs — without overpromising or over-engineering.",
   objectives:[
     "Describe Close's customization capabilities at the field, pipeline, and workflow level","Explain Close's API and its practical use cases for client integrations","Navigate the 100+ native integration ecosystem confidently","Set appropriate client expectations on custom configuration scope"
@@ -314,14 +314,14 @@ const CURRICULUM = [
 },
 {
   id:5, title:"ICP & Sales Readiness", subtitle:"Who to sell to. How to qualify fast.",
-  duration:"35–45 min", icon:"🎯",
+  duration:"18–22 min", icon:"🎯",
   objective:"Selling to the wrong clients destroys your reputation faster than anything. This module defines Close's ICP with precision and gives you a qualification framework that separates buyers from browsers.",
   objectives:[
     "Define Close's ideal customer profile with firmographic and behavioral precision","Apply the QUALIFY framework to screen prospects in or out in a first call","Run a structured discovery conversation that uncovers pain before pitching product","Recognize disqualification signals that save you from bad-fit implementations"
   ],
   sections:[
     {heading:"Close's Ideal Customer Profile", html:`<table class="content-table"><thead><tr><th>Attribute</th><th>ICP Definition</th></tr></thead><tbody><tr><td><strong>Company Size</strong></td><td>5–200 employees (sweet spot: 10–75)</td></tr><tr><td><strong>Sales Team Size</strong></td><td>1–50 sales reps</td></tr><tr><td><strong>Sales Motion</strong></td><td>Outbound, inbound, or blended — high volume of daily sales activities</td></tr><tr><td><strong>Comms Mix</strong></td><td>Heavy reliance on phone + email + SMS</td></tr><tr><td><strong>Current CRM</strong></td><td>Transitioning from spreadsheets, HubSpot (free), Pipedrive, or legacy dialer-CRM combo</td></tr><tr><td><strong>Industry</strong></td><td>SaaS, insurance, real estate, financial services, home services, recruiting</td></tr><tr><td><strong>Funding Stage</strong></td><td>Bootstrapped to Series B</td></tr></tbody></table>`},
-    {heading:"Disqualification Signals", html:`<ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px"><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Less than 3 active salespeople (ROI math rarely works at this scale)</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Primary need is marketing automation, not sales execution</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Requires complex custom objects or deep ERP integration out of the gate</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Enterprise procurement requiring extended security review</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Sales team does not use the phone at all (Close's #1 value driver is neutered)</li></ul>`},
+    {heading:"Disqualification Signals", html:`<ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px"><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Primary need is marketing automation, not sales execution</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Requires complex custom objects or deep ERP integration out of the gate</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Enterprise procurement requiring extended security review</li><li style="font-size:13px;color:#f87171;padding-left:20px;position:relative"><span style="position:absolute;left:0">✗</span>Sales team does not use the phone at all (Close's #1 value driver is neutered)</li></ul>`},
     {heading:"The QUALIFY Framework", html:`<table class="content-table"><thead><tr><th>Letter</th><th>Qualification Question</th></tr></thead><tbody><tr><td><strong>Q — Quantified Pain</strong></td><td>Can they articulate a problem with a measurable cost? 'Reps spend 2 hours/day on admin' is quantified. 'We need a better CRM' is not.</td></tr><tr><td><strong>U — Urgency</strong></td><td>Is there a reason to act now? New hire? Lost deal? Q-end push? No urgency = no timeline.</td></tr><tr><td><strong>A — Authority</strong></td><td>Is the person you're talking to a decision-maker, or do you need access to one?</td></tr><tr><td><strong>L — Level of Fit</strong></td><td>Does their team size, sales motion, and current stack match the Close ICP?</td></tr><tr><td><strong>I — Integration Complexity</strong></td><td>Are there technical blockers that could stall the deal?</td></tr><tr><td><strong>F — Financial Capacity</strong></td><td>Can they afford the plan that solves their problem?</td></tr><tr><td><strong>Y — Your Advantage</strong></td><td>Is there a reason they would choose to work with you vs. buying direct?</td></tr></tbody></table><div class="callout">QUALIFY Score: 15+ = Pursue aggressively &nbsp;|&nbsp; 10–14 = Qualified with conditions &nbsp;|&nbsp; &lt;10 = Disqualify</div>`}
   ],
   quiz:[
@@ -334,7 +334,7 @@ const CURRICULUM = [
 },
 {
   id:6, title:"Product Demonstrations", subtitle:"Demos that open with pain. Close with urgency.",
-  duration:"40–50 min", icon:"🖥️",
+  duration:"20–25 min", icon:"🖥️",
   objective:"A bad demo loses deals that discovery won. A great demo wins deals that pricing almost lost. This module teaches you how to run a Close demo that connects product capability directly to the prospect's stated pain.",
   objectives:[
     "Structure a 30-minute demo that opens with pain and closes with urgency","Adapt the demo narrative for three different buyer personas","Handle the five most common objections in a Close evaluation","Use the demo to create clear next-step momentum, not buyer indecision"
@@ -355,7 +355,7 @@ const CURRICULUM = [
 },
 {
   id:7, title:"Product Knowledge L3", subtitle:"Chloe AI, multi-team builds & complex implementations",
-  duration:"35–45 min", icon:"🤖",
+  duration:"18–22 min", icon:"🤖",
   objective:"Your deepest clients will push Close to its ceiling. This module prepares you for advanced conversations — from Chloe AI's full capability set to multi-team configurations and complex implementation patterns.",
   objectives:[
     "Describe Chloe AI's full feature set and how it changes the sales rep experience","Configure multi-team and multi-pipeline setups for clients with complex org structures","Understand advanced workflow and automation patterns beyond basic sequences","Know when to scope an implementation as standard vs. advanced (and price accordingly)"
@@ -375,7 +375,7 @@ const CURRICULUM = [
 },
 {
   id:8, title:"Client Success Delivery", subtitle:"Implementation. Early value. First 90 days.",
-  duration:"35–45 min", icon:"🚀",
+  duration:"18–22 min", icon:"🚀",
   objective:"The implementation phase is where partner reputations are built or destroyed. A smooth launch creates evangelists who refer you business. A fumbled one creates churned accounts and negative referrals.",
   objectives:[
     "Execute a phased 30/60/90-day implementation plan for new Close clients","Define and track early value indicators that prove ROI before the first renewal conversation","Run an effective onboarding session that drives rep adoption immediately","Identify and resolve common implementation blockers before they become client issues"
@@ -396,7 +396,7 @@ const CURRICULUM = [
 },
 {
   id:9, title:"Client Retention & Expansion", subtitle:"No client goes cold. No deal slips through.",
-  duration:"35–45 min", icon:"📈",
+  duration:"18–22 min", icon:"📈",
   objective:"Your best new client is one you already have. This module teaches you how to systematically manage renewals before they become churn risks, identify upsell triggers, and build a book of business where existing clients fund new client acquisition.",
   objectives:[
     "Execute a proactive renewal process that starts 90 days before the renewal date","Identify the five upsell and expansion signals that indicate a client is ready to grow","Navigate at-risk account conversations that prevent churn before it happens","Build a quarterly business review (QBR) format that strengthens client relationships"
@@ -416,7 +416,7 @@ const CURRICULUM = [
 },
 {
   id:10, title:"Scalable Business Building", subtitle:"Repeatable. Measurable. Yours.",
-  duration:"35–45 min", icon:"📊",
+  duration:"18–22 min", icon:"📊",
   objective:"You've learned how to sell Close, implement it, and retain clients. This final module is about turning those skills into a systematized, scalable practice — one that generates predictable revenue, runs without you personally in every conversation, and compounds over time.",
   objectives:[
     "Define the five KPIs that measure a healthy Close partner practice","Build a lead generation engine that brings new Close prospects to you consistently","Design a service delivery model that scales beyond your personal capacity","Create an annual planning framework that sets revenue targets and tracks progress"

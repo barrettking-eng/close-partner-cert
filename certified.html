@@ -70,6 +70,20 @@ body{font-family:'Inter',sans-serif;background:#080e1c;color:#e2e8f0;min-height:
 .toast{position:fixed;bottom:24px;right:24px;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 20px;font-size:14px;color:#f8fafc;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.success{border-color:#10b981}
+
+@media print {
+  body{background:#fff!important;color:#1e293b!important}
+  .topbar,.confetti-wrap,.toast,.cert-actions,.cert-hero{display:none!important}
+  .cert-card-wrap{padding:0;margin:0 auto}
+  .cert-card{background:#fff!important;border:1px solid #e2e8f0!important;box-shadow:none!important}
+  .cert-card::before,.cert-card::after{display:none!important}
+  .cert-issued,.cert-awarded-to,.cert-score-label,.cert-check-title,.cert-meta-lbl{color:#64748b!important}
+  .cert-name,.cert-title,.cert-meta-num{color:#1e293b!important}
+  .cert-score-num{background:none!important;-webkit-background-clip:unset!important;-webkit-text-fill-color:#2563eb!important;color:#2563eb!important}
+  .cert-score-block,.cert-meta,.cert-check-item{background:#f8fafc!important;border-color:#e2e8f0!important}
+  .cert-check-item{color:#1e293b!important}
+  .cert-divider{background:#2563eb!important}
+}
 </style>
 </head>
 <body>
